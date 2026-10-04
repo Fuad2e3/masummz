@@ -1,4 +1,4 @@
-// Masum Mz Portfolio - Interactive Video Hover & Modal Player
+// Masum Mz Portfolio - Interactive JS & Re-triggering Counter Animation
 
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Mobile Navbar Toggle
@@ -55,8 +55,12 @@ document.addEventListener('DOMContentLoaded', () => {
       navbar?.classList.remove('scrolled');
     }
 
+    // Check Stats Visibility on Every Scroll
     checkStatsVisibility();
   });
+
+  // Initial check on page load
+  checkStatsVisibility();
 
   // 3. Theme Color Accent Switcher
   const themeBtns = document.querySelectorAll('.theme-dot');
@@ -104,34 +108,60 @@ document.addEventListener('DOMContentLoaded', () => {
     if (activeBtn) activeBtn.classList.add('active');
   }
 
-  // 4. Animated Stats Counter
-  let statsAnimated = false;
+  // 4. Re-triggering Animated Stats Counter (Triggers on scroll down & scroll up)
   const statsSection = document.querySelector('.stats-bar');
   const statNumbers = document.querySelectorAll('.stat-number');
+  let isStatsInView = false;
+  let activeAnimIntervals = [];
 
   function checkStatsVisibility() {
-    if (!statsSection || statsAnimated) return;
+    if (!statsSection) return;
     const rect = statsSection.getBoundingClientRect();
-    if (rect.top <= window.innerHeight - 80) {
-      statsAnimated = true;
-      statNumbers.forEach(num => {
-        const target = parseInt(num.getAttribute('data-target') || num.innerText, 10);
-        const suffix = num.getAttribute('data-suffix') || '';
-        let count = 0;
-        const speed = target / 35;
+    const windowHeight = window.innerHeight;
 
-        const updateCount = () => {
-          count += speed;
-          if (count < target) {
-            num.innerText = Math.ceil(count) + suffix;
-            setTimeout(updateCount, 30);
-          } else {
-            num.innerText = target + suffix;
-          }
-        };
-        updateCount();
-      });
+    // Check if section is visible in viewport
+    const inView = rect.top <= windowHeight - 50 && rect.bottom >= 50;
+
+    if (inView && !isStatsInView) {
+      isStatsInView = true;
+      animateStatNumbers();
+    } else if (!inView && isStatsInView) {
+      isStatsInView = false;
+      resetStatNumbers();
     }
+  }
+
+  function animateStatNumbers() {
+    activeAnimIntervals.forEach(id => clearInterval(id));
+    activeAnimIntervals = [];
+
+    statNumbers.forEach(num => {
+      const target = parseInt(num.getAttribute('data-target') || '0', 10);
+      const suffix = num.getAttribute('data-suffix') || '';
+      let count = 0;
+      const step = Math.max(1, Math.ceil(target / 30));
+
+      const intervalId = setInterval(() => {
+        count += step;
+        if (count >= target) {
+          num.innerText = target + suffix;
+          clearInterval(intervalId);
+        } else {
+          num.innerText = count + suffix;
+        }
+      }, 35);
+
+      activeAnimIntervals.push(intervalId);
+    });
+  }
+
+  function resetStatNumbers() {
+    activeAnimIntervals.forEach(id => clearInterval(id));
+    activeAnimIntervals = [];
+    statNumbers.forEach(num => {
+      const suffix = num.getAttribute('data-suffix') || '';
+      num.innerText = '0' + suffix;
+    });
   }
 
   // 5. Portfolio Category Filter
@@ -169,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 6. Hover Auto-play Only Hovered Video & Pause All Others
+  // 6. Hover Auto-play Video & Pause All Others
   const allPortfolioVideos = document.querySelectorAll('.portfolio-video');
 
   function stopAllVideos() {
@@ -184,16 +214,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const video = card.querySelector('.portfolio-video');
 
     if (video) {
-      // Hover Mouse Enter -> Play ONLY this video
       card.addEventListener('mouseenter', () => {
-        stopAllVideos(); // Pause all other videos
+        stopAllVideos();
         card.classList.add('playing');
-        video.play().catch(err => {
-          console.log('Autoplay prevented:', err);
-        });
+        video.play().catch(err => console.log('Autoplay prevented:', err));
       });
 
-      // Mouse Leave -> Stop video
       card.addEventListener('mouseleave', () => {
         video.pause();
         video.currentTime = 0;
@@ -201,10 +227,8 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Click Card -> Open Enlarged Video Modal
     card.addEventListener('click', () => {
-      stopAllVideos(); // Pause grid videos
-
+      stopAllVideos();
       const title = card.querySelector('h3')?.innerText || 'Portfolio Video Preview';
       const desc = card.querySelector('p')?.innerText || '';
       const category = card.getAttribute('data-category') || 'Video Editing';
@@ -214,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 7. Modal Enlarge Video Player Logic
+  // 7. Modal Enlarge Video Player
   const modal = document.getElementById('portfolioModal');
   const modalTitle = document.getElementById('modalTitle');
   const modalCategory = document.getElementById('modalCategory');
@@ -262,6 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function closeModal() {
     if (modal) {
+      modal.classList.remove('remove');
       modal.classList.remove('open');
       document.body.style.overflow = '';
       if (modalMediaContainer) {
@@ -272,20 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 8. FAQ Accordion Toggle
-  const faqItems = document.querySelectorAll('.faq-item');
-  faqItems.forEach(item => {
-    const question = item.querySelector('.faq-question');
-    question?.addEventListener('click', () => {
-      const isOpen = item.classList.contains('active');
-      faqItems.forEach(i => i.classList.remove('active'));
-      if (!isOpen) {
-        item.classList.add('active');
-      }
-    });
-  });
-
-  // 9. Copy to Clipboard Button & Toast Notification
+  // 8. Copy to Clipboard & Toast Notification
   const copyBtns = document.querySelectorAll('.copy-btn');
   copyBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
@@ -315,7 +327,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 3000);
   }
 
-  // 10. Contact Form Submit Handler
+  // 9. Contact Form Handler
   const contactForm = document.getElementById('contactForm');
   if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
