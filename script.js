@@ -1,4 +1,4 @@
-// Masum Mz Portfolio - Enhanced Interactive JavaScript
+// Masum Mz Portfolio - Interactive Video Hover & Modal Player
 
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Mobile Navbar Toggle
@@ -10,23 +10,21 @@ document.addEventListener('DOMContentLoaded', () => {
     menuToggle.addEventListener('click', () => {
       navLinks.classList.toggle('active');
       const icon = menuToggle.querySelector('i');
-      if (navLinks.classList.contains('active')) {
-        icon.className = 'fa-solid fa-xmark';
-      } else {
-        icon.className = 'fa-solid fa-bars';
+      if (icon) {
+        icon.className = navLinks.classList.contains('active') ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
       }
     });
 
     navLinksList.forEach(link => {
       link.addEventListener('click', () => {
         navLinks.classList.remove('active');
-        const icon = menuToggle.querySelector('i');
+        const icon = menuToggle?.querySelector('i');
         if (icon) icon.className = 'fa-solid fa-bars';
       });
     });
   }
 
-  // 2. Active Nav Link & Scrolled Header Effect
+  // 2. Active Nav Link & Scrolled Header
   const sections = document.querySelectorAll('section, header');
   const navbar = document.querySelector('.navbar');
 
@@ -57,7 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
       navbar?.classList.remove('scrolled');
     }
 
-    // Trigger Animated Stats Counter on Scroll
     checkStatsVisibility();
   });
 
@@ -97,7 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
       root.style.setProperty('--glow-color', 'rgba(255, 183, 3, 0.45)');
       root.style.setProperty('--card-border', 'rgba(255, 183, 3, 0.25)');
     } else {
-      // Default Neon Green
       root.style.setProperty('--primary-green', '#6ef028');
       root.style.setProperty('--primary-hover', '#8ced34');
       root.style.setProperty('--glow-color', 'rgba(110, 240, 40, 0.4)');
@@ -116,13 +112,13 @@ document.addEventListener('DOMContentLoaded', () => {
   function checkStatsVisibility() {
     if (!statsSection || statsAnimated) return;
     const rect = statsSection.getBoundingClientRect();
-    if (rect.top <= window.innerHeight - 100) {
+    if (rect.top <= window.innerHeight - 80) {
       statsAnimated = true;
       statNumbers.forEach(num => {
         const target = parseInt(num.getAttribute('data-target') || num.innerText, 10);
         const suffix = num.getAttribute('data-suffix') || '';
         let count = 0;
-        const speed = target / 40;
+        const speed = target / 35;
 
         const updateCount = () => {
           count += speed;
@@ -140,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 5. Portfolio Category Filter
   const filterBtns = document.querySelectorAll('.filter-btn');
-  const portfolioItems = document.querySelectorAll('.portfolio-card');
+  const portfolioCards = document.querySelectorAll('.portfolio-card');
 
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -149,7 +145,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const filterValue = btn.getAttribute('data-filter');
 
-      portfolioItems.forEach(item => {
+      portfolioCards.forEach(item => {
+        const video = item.querySelector('video');
+        if (video) {
+          video.pause();
+          video.currentTime = 0;
+        }
+
         if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
           item.style.display = 'block';
           setTimeout(() => {
@@ -167,7 +169,52 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 6. Interactive Video & Preview Modal
+  // 6. Hover Auto-play Only Hovered Video & Pause All Others
+  const allPortfolioVideos = document.querySelectorAll('.portfolio-video');
+
+  function stopAllVideos() {
+    allPortfolioVideos.forEach(v => {
+      v.pause();
+      v.currentTime = 0;
+    });
+    portfolioCards.forEach(c => c.classList.remove('playing'));
+  }
+
+  portfolioCards.forEach(card => {
+    const video = card.querySelector('.portfolio-video');
+
+    if (video) {
+      // Hover Mouse Enter -> Play ONLY this video
+      card.addEventListener('mouseenter', () => {
+        stopAllVideos(); // Pause all other videos
+        card.classList.add('playing');
+        video.play().catch(err => {
+          console.log('Autoplay prevented:', err);
+        });
+      });
+
+      // Mouse Leave -> Stop video
+      card.addEventListener('mouseleave', () => {
+        video.pause();
+        video.currentTime = 0;
+        card.classList.remove('playing');
+      });
+    }
+
+    // Click Card -> Open Enlarged Video Modal
+    card.addEventListener('click', () => {
+      stopAllVideos(); // Pause grid videos
+
+      const title = card.querySelector('h3')?.innerText || 'Portfolio Video Preview';
+      const desc = card.querySelector('p')?.innerText || '';
+      const category = card.getAttribute('data-category') || 'Video Editing';
+      const videoSrc = video?.getAttribute('src') || card.getAttribute('data-video-src');
+
+      openModal(title, category, desc, videoSrc);
+    });
+  });
+
+  // 7. Modal Enlarge Video Player Logic
   const modal = document.getElementById('portfolioModal');
   const modalTitle = document.getElementById('modalTitle');
   const modalCategory = document.getElementById('modalCategory');
@@ -175,46 +222,41 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalMediaContainer = document.getElementById('modalMediaContainer');
   const modalClose = document.getElementById('modalClose');
 
-  portfolioItems.forEach(card => {
-    card.addEventListener('click', () => {
-      const title = card.querySelector('h3')?.innerText || 'Portfolio Showcase';
-      const desc = card.querySelector('p')?.innerText || '';
-      const category = card.getAttribute('data-category') || 'Video Editing';
-      const embedUrl = card.getAttribute('data-embed');
+  function openModal(title, category, desc, videoSrc) {
+    if (modalTitle) modalTitle.innerText = title;
+    if (modalCategory) modalCategory.innerText = category.toUpperCase();
+    if (modalDesc) modalDesc.innerText = desc;
 
-      if (modalTitle) modalTitle.innerText = title;
-      if (modalCategory) modalCategory.innerText = category.toUpperCase();
-      if (modalDesc) modalDesc.innerText = desc;
-
-      if (modalMediaContainer) {
-        if (embedUrl) {
-          modalMediaContainer.innerHTML = `
-            <div class="video-responsive">
-              <iframe src="${embedUrl}" title="${title}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-          `;
-        } else {
-          modalMediaContainer.innerHTML = `
-            <div class="modal-placeholder-preview">
-              <i class="fa-solid fa-play-circle modal-play-icon"></i>
-              <p>Sample Video Preview for <strong>${title}</strong></p>
-              <span class="preview-note"><i class="fa-solid fa-circle-info"></i> Full HD client video file render sample. Contact to request direct Google Drive showcase link.</span>
-            </div>
-          `;
-        }
+    if (modalMediaContainer) {
+      if (videoSrc) {
+        modalMediaContainer.innerHTML = `
+          <div class="modal-video-wrapper">
+            <video src="${videoSrc}" controls autoplay playsinline class="modal-large-video"></video>
+          </div>
+        `;
+      } else {
+        modalMediaContainer.innerHTML = `
+          <div class="modal-placeholder-preview">
+            <i class="fa-solid fa-play-circle modal-play-icon"></i>
+            <p>High Quality Video Preview for <strong>${title}</strong></p>
+          </div>
+        `;
       }
+    }
 
-      if (modal) {
-        modal.classList.add('open');
-        document.body.style.overflow = 'hidden';
-      }
-    });
-  });
+    if (modal) {
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+  }
 
   if (modalClose && modal) {
     modalClose.addEventListener('click', closeModal);
     modal.addEventListener('click', (e) => {
       if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
     });
   }
 
@@ -222,11 +264,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (modal) {
       modal.classList.remove('open');
       document.body.style.overflow = '';
-      if (modalMediaContainer) modalMediaContainer.innerHTML = '';
+      if (modalMediaContainer) {
+        const modalVid = modalMediaContainer.querySelector('video');
+        if (modalVid) modalVid.pause();
+        modalMediaContainer.innerHTML = '';
+      }
     }
   }
 
-  // 7. FAQ Accordion Toggle
+  // 8. FAQ Accordion Toggle
   const faqItems = document.querySelectorAll('.faq-item');
   faqItems.forEach(item => {
     const question = item.querySelector('.faq-question');
@@ -239,10 +285,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 8. Copy Contact Email / Phone Toast Notification
+  // 9. Copy to Clipboard Button & Toast Notification
   const copyBtns = document.querySelectorAll('.copy-btn');
   copyBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
+      e.stopPropagation();
       e.preventDefault();
       const textToCopy = btn.getAttribute('data-copy');
       if (textToCopy) {
@@ -268,7 +315,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 3000);
   }
 
-  // 9. Contact Form Submit Simulation
+  // 10. Contact Form Submit Handler
   const contactForm = document.getElementById('contactForm');
   if (contactForm) {
     contactForm.addEventListener('submit', (e) => {

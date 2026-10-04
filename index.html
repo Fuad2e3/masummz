@@ -32,12 +32,12 @@
 </head>
 <body>
 
-  <!-- Top Announcement / Theme Bar -->
+  <!-- Top Announcement / Theme Switcher Bar -->
   <div class="top-bar">
     <div class="top-container">
-      <span class="top-announcement"><i class="fa-solid fa-sparkles"></i> Open for New Freelance Projects & Monthly Content Retainers!</span>
+      <span class="top-announcement"><i class="fa-solid fa-sparkles"></i> Available for New Projects & Monthly Retainers!</span>
       <div class="theme-switcher">
-        <span class="theme-label">Accent Theme:</span>
+        <span class="theme-label">Accent Color:</span>
         <button class="theme-dot dot-green active" data-color="green" title="Neon Green"></button>
         <button class="theme-dot dot-cyan" data-color="cyan" title="Cyber Cyan"></button>
         <button class="theme-dot dot-purple" data-color="purple" title="Electric Purple"></button>
@@ -46,7 +46,7 @@
     </div>
   </div>
 
-  <!-- Navigation -->
+  <!-- Navigation Bar -->
   <header class="navbar">
     <div class="nav-container">
       <a href="#home" class="logo">
@@ -108,22 +108,22 @@
 
           <!-- Floating Software Icons -->
           <div class="float-icon icon-pr" title="Adobe Premiere Pro">
-            <img src="https://cdn.worldvectorlogo.com/logos/adobe-premiere-pro-cc.svg" alt="Premiere Pro">
+            <span class="software-badge badge-pr">Pr</span>
           </div>
           <div class="float-icon icon-ae" title="Adobe After Effects">
-            <img src="https://cdn.worldvectorlogo.com/logos/adobe-after-effects-cc.svg" alt="After Effects">
+            <span class="software-badge badge-ae">Ae</span>
           </div>
           <div class="float-icon icon-ps" title="Adobe Photoshop">
-            <img src="https://cdn.worldvectorlogo.com/logos/adobe-photoshop-2.svg" alt="Photoshop">
+            <span class="software-badge badge-ps">Ps</span>
           </div>
           <div class="float-icon icon-ai" title="Adobe Illustrator">
-            <img src="https://cdn.worldvectorlogo.com/logos/adobe-illustrator-cc.svg" alt="Illustrator">
+            <span class="software-badge badge-ai">Ai</span>
           </div>
           <div class="float-icon icon-dv" title="DaVinci Resolve">
-            <img src="https://cdn.worldvectorlogo.com/logos/davinci-resolve-12.svg" alt="DaVinci Resolve">
+            <span class="software-badge badge-dv">Dv</span>
           </div>
-          <div class="float-icon icon-capcut" title="CapCut">
-            <img src="https://assets.stickpng.com/images/62bf1f27e57c6b904eb2023d.png" alt="CapCut">
+          <div class="float-icon icon-capcut" title="CapCut Pro">
+            <span class="software-badge badge-capcut">Cc</span>
           </div>
         </div>
       </div>
@@ -269,13 +269,15 @@
     </div>
   </section>
 
-  <!-- Portfolio Section -->
+  <!-- Portfolio Section (With Video Hover Auto-play & Large Modal View) -->
   <section class="portfolio-section" id="portfolio">
     <div class="section-container">
       <div class="section-header text-center">
         <span class="card-badge">MY PORTFOLIO</span>
         <h2 class="section-title">Featured Work Showcase</h2>
-        <p class="section-subtitle">Click on any project card to view media preview and full project details.</p>
+        <p class="section-subtitle">
+          <i class="fa-solid fa-mouse-pointer"></i> Hover mouse on any video to auto-play | Click to watch full screen in HD!
+        </p>
       </div>
 
       <!-- Filter Buttons -->
@@ -290,21 +292,25 @@
       <div class="portfolio-grid">
         <div class="portfolio-card" data-category="video">
           <div class="portfolio-media">
-            <div class="media-placeholder video-bg-1">
-              <i class="fa-solid fa-play play-icon"></i>
+            <video class="portfolio-video" src="https://assets.mixkit.co/videos/preview/mixkit-working-on-a-video-editing-software-41618-large.mp4" muted loop playsinline preload="metadata"></video>
+            <div class="video-overlay">
+              <i class="fa-solid fa-play hover-play-icon"></i>
+              <span class="hover-text">Hover to Play | Click to Enlarge</span>
             </div>
             <span class="category-badge">Video Editing</span>
           </div>
           <div class="portfolio-info">
             <h3>YouTube Vlog & Storytelling Edit</h3>
-            <p>Pacing optimization, color grading, B-roll integration, and immersive sound design.</p>
+            <p>Pacing optimization, color grading, B-roll integration, and sound design.</p>
           </div>
         </div>
 
         <div class="portfolio-card" data-category="shorts">
           <div class="portfolio-media">
-            <div class="media-placeholder shorts-bg-1">
-              <i class="fa-solid fa-play play-icon"></i>
+            <video class="portfolio-video" src="https://assets.mixkit.co/videos/preview/mixkit-young-man-recording-a-video-blog-41589-large.mp4" muted loop playsinline preload="metadata"></video>
+            <div class="video-overlay">
+              <i class="fa-solid fa-play hover-play-icon"></i>
+              <span class="hover-text">Hover to Play | Click to Enlarge</span>
             </div>
             <span class="category-badge">Shorts / Reels</span>
           </div>
@@ -314,10 +320,42 @@
           </div>
         </div>
 
+        <div class="portfolio-card" data-category="video">
+          <div class="portfolio-media">
+            <video class="portfolio-video" src="https://assets.mixkit.co/videos/preview/mixkit-editing-a-video-on-a-computer-41617-large.mp4" muted loop playsinline preload="metadata"></video>
+            <div class="video-overlay">
+              <i class="fa-solid fa-play hover-play-icon"></i>
+              <span class="hover-text">Hover to Play | Click to Enlarge</span>
+            </div>
+            <span class="category-badge">Motion Graphics</span>
+          </div>
+          <div class="portfolio-info">
+            <h3>Motion Graphics & Visual FX Edit</h3>
+            <p>Sleek motion graphics, logo animations, lower thirds, and callouts.</p>
+          </div>
+        </div>
+
+        <div class="portfolio-card" data-category="shorts">
+          <div class="portfolio-media">
+            <video class="portfolio-video" src="https://assets.mixkit.co/videos/preview/mixkit-fashion-model-posing-for-a-photoshoot-41584-large.mp4" muted loop playsinline preload="metadata"></video>
+            <div class="video-overlay">
+              <i class="fa-solid fa-play hover-play-icon"></i>
+              <span class="hover-text">Hover to Play | Click to Enlarge</span>
+            </div>
+            <span class="category-badge">Shorts / Reels</span>
+          </div>
+          <div class="portfolio-info">
+            <h3>Fitness & Fashion Reels Reel</h3>
+            <p>Beat synchronization, color enhancement, and energetic motion overlays.</p>
+          </div>
+        </div>
+
         <div class="portfolio-card" data-category="thumbnail">
           <div class="portfolio-media">
-            <div class="media-placeholder thumb-bg-1">
-              <i class="fa-solid fa-magnifying-glass-plus view-icon"></i>
+            <video class="portfolio-video" src="https://assets.mixkit.co/videos/preview/mixkit-creative-designer-working-on-a-tablet-41588-large.mp4" muted loop playsinline preload="metadata"></video>
+            <div class="video-overlay">
+              <i class="fa-solid fa-magnifying-glass-plus hover-play-icon"></i>
+              <span class="hover-text">Click to View Design</span>
             </div>
             <span class="category-badge">Thumbnail Design</span>
           </div>
@@ -327,36 +365,12 @@
           </div>
         </div>
 
-        <div class="portfolio-card" data-category="video">
-          <div class="portfolio-media">
-            <div class="media-placeholder video-bg-2">
-              <i class="fa-solid fa-play play-icon"></i>
-            </div>
-            <span class="category-badge">Video Editing</span>
-          </div>
-          <div class="portfolio-info">
-            <h3>Corporate Brand Promo & Commercial</h3>
-            <p>Sleek motion graphics, professional voiceover sync, and cinematic transitions.</p>
-          </div>
-        </div>
-
-        <div class="portfolio-card" data-category="shorts">
-          <div class="portfolio-media">
-            <div class="media-placeholder shorts-bg-2">
-              <i class="fa-solid fa-play play-icon"></i>
-            </div>
-            <span class="category-badge">Shorts / Reels</span>
-          </div>
-          <div class="portfolio-info">
-            <h3>Fitness Motivation Instagram Reel</h3>
-            <p>Beat synchronization, color enhancement, and energetic motion overlays.</p>
-          </div>
-        </div>
-
         <div class="portfolio-card" data-category="thumbnail">
           <div class="portfolio-media">
-            <div class="media-placeholder thumb-bg-2">
-              <i class="fa-solid fa-magnifying-glass-plus view-icon"></i>
+            <video class="portfolio-video" src="https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-man-playing-a-video-game-41585-large.mp4" muted loop playsinline preload="metadata"></video>
+            <div class="video-overlay">
+              <i class="fa-solid fa-magnifying-glass-plus hover-play-icon"></i>
+              <span class="hover-text">Click to View Design</span>
             </div>
             <span class="category-badge">Thumbnail Design</span>
           </div>
@@ -420,38 +434,38 @@
       </div>
 
       <div class="tools-grid">
-        <div class="tool-card">
-          <img src="https://cdn.worldvectorlogo.com/logos/adobe-premiere-pro-cc.svg" alt="Adobe Premiere Pro">
+        <div class="tool-card card-pr">
+          <div class="tool-icon-box"><span class="software-badge badge-pr">Pr</span></div>
           <h3>Premiere Pro</h3>
           <span class="tool-level">Advanced Editing</span>
         </div>
 
-        <div class="tool-card">
-          <img src="https://cdn.worldvectorlogo.com/logos/adobe-after-effects-cc.svg" alt="Adobe After Effects">
+        <div class="tool-card card-ae">
+          <div class="tool-icon-box"><span class="software-badge badge-ae">Ae</span></div>
           <h3>After Effects</h3>
           <span class="tool-level">Motion Graphics & VFX</span>
         </div>
 
-        <div class="tool-card">
-          <img src="https://cdn.worldvectorlogo.com/logos/adobe-photoshop-2.svg" alt="Adobe Photoshop">
+        <div class="tool-card card-ps">
+          <div class="tool-icon-box"><span class="software-badge badge-ps">Ps</span></div>
           <h3>Photoshop</h3>
           <span class="tool-level">Graphic & Thumbnail Design</span>
         </div>
 
-        <div class="tool-card">
-          <img src="https://cdn.worldvectorlogo.com/logos/adobe-illustrator-cc.svg" alt="Adobe Illustrator">
+        <div class="tool-card card-ai">
+          <div class="tool-icon-box"><span class="software-badge badge-ai">Ai</span></div>
           <h3>Illustrator</h3>
           <span class="tool-level">Vector Art & Logos</span>
         </div>
 
-        <div class="tool-card">
-          <img src="https://cdn.worldvectorlogo.com/logos/davinci-resolve-12.svg" alt="DaVinci Resolve">
+        <div class="tool-card card-dv">
+          <div class="tool-icon-box"><span class="software-badge badge-dv">Dv</span></div>
           <h3>DaVinci Resolve</h3>
           <span class="tool-level">Color Grading & Audio</span>
         </div>
 
-        <div class="tool-card">
-          <img src="https://assets.stickpng.com/images/62bf1f27e57c6b904eb2023d.png" alt="CapCut Pro">
+        <div class="tool-card card-capcut">
+          <div class="tool-icon-box"><span class="software-badge badge-capcut">Cc</span></div>
           <h3>CapCut Pro</h3>
           <span class="tool-level">Fast Viral Edits</span>
         </div>
@@ -733,14 +747,14 @@
     </div>
   </section>
 
-  <!-- Interactive Portfolio Media Popup Modal -->
+  <!-- Interactive Portfolio Enlarged Media Popup Modal -->
   <div class="portfolio-modal" id="portfolioModal" aria-hidden="true">
     <div class="modal-content">
       <button class="modal-close" id="modalClose" aria-label="Close modal">&times;</button>
       <span class="card-badge" id="modalCategory">CATEGORY</span>
       <h2 id="modalTitle">Project Title</h2>
       <div class="modal-media-container" id="modalMediaContainer">
-        <!-- Loaded dynamically via JS -->
+        <!-- Enlarged HTML5 Video Player Loaded Dynamically -->
       </div>
       <p id="modalDesc">Project description goes here...</p>
       <div class="modal-actions">
