@@ -49,7 +49,7 @@
         <i class="fa-solid fa-bars"></i>
       </button>
 
-      <!-- Clean 5 Menu Links for Maximum Focus -->
+      <!-- Clean 5 Core Menu Links -->
       <nav class="nav-links" id="navLinks">
         <a href="#home" class="active">Home</a>
         <a href="#about">About</a>
@@ -115,7 +115,7 @@
     </div>
   </section>
 
-  <!-- Stats Counter Bar -->
+  <!-- Stats Counter Bar (Re-triggers on scroll) -->
   <section class="stats-bar">
     <div class="stats-container">
       <div class="stat-item">
@@ -136,6 +136,29 @@
       <div class="stat-item">
         <h3 class="stat-number" data-target="99" data-suffix="%">99%</h3>
         <p class="stat-label">Satisfaction Rate</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 2: Infinite Client Brand & Channel Marquee -->
+  <section class="brand-marquee-section">
+    <div class="marquee-track">
+      <div class="marquee-content">
+        <div class="brand-pill"><i class="fa-brands fa-youtube"></i> TechMaster <span>(250K+ Subs)</span></div>
+        <div class="brand-pill"><i class="fa-solid fa-podcast"></i> Creator Podcast <span>(500K+ Views)</span></div>
+        <div class="brand-pill"><i class="fa-brands fa-instagram"></i> Fitness Pro <span>(100K+ Followers)</span></div>
+        <div class="brand-pill"><i class="fa-solid fa-gamepad"></i> Gamer X <span>(1M+ Views)</span></div>
+        <div class="brand-pill"><i class="fa-solid fa-chart-line"></i> Finance Daily <span>(150K+ Subs)</span></div>
+        <div class="brand-pill"><i class="fa-solid fa-building"></i> Brand Commercials <span>(50+ Projects)</span></div>
+      </div>
+      <!-- Duplicate content for seamless loop -->
+      <div class="marquee-content" aria-hidden="true">
+        <div class="brand-pill"><i class="fa-brands fa-youtube"></i> TechMaster <span>(250K+ Subs)</span></div>
+        <div class="brand-pill"><i class="fa-solid fa-podcast"></i> Creator Podcast <span>(500K+ Views)</span></div>
+        <div class="brand-pill"><i class="fa-brands fa-instagram"></i> Fitness Pro <span>(100K+ Followers)</span></div>
+        <div class="brand-pill"><i class="fa-solid fa-gamepad"></i> Gamer X <span>(1M+ Views)</span></div>
+        <div class="brand-pill"><i class="fa-solid fa-chart-line"></i> Finance Daily <span>(150K+ Subs)</span></div>
+        <div class="brand-pill"><i class="fa-solid fa-building"></i> Brand Commercials <span>(50+ Projects)</span></div>
       </div>
     </div>
   </section>
@@ -184,6 +207,42 @@
             <a href="#contact" class="primary-btn">Hire Me Now <i class="fa-solid fa-paper-plane"></i></a>
             <a href="https://wa.me/?text=Hello%20Masum%20Mz,%20I%20want%20to%20discuss%20a%20video%20project" target="_blank" class="outline-btn">WhatsApp Chat <i class="fa-brands fa-whatsapp"></i></a>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 1: Before vs After Interactive Color Grading Slider -->
+  <section class="ba-section" id="before-after">
+    <div class="section-container">
+      <div class="section-header text-center">
+        <span class="card-badge">THE EDITING MAGIC</span>
+        <h2 class="section-title">Before vs After Editing & Color Grade</h2>
+        <p class="section-subtitle">
+          <i class="fa-solid fa-sliders"></i> Drag the slider left & right to compare raw camera footage vs final polished edit!
+        </p>
+      </div>
+
+      <div class="ba-comparison-wrapper">
+        <div class="ba-card">
+          <!-- Layer 1: BEFORE (Raw Dull Footage) -->
+          <div class="ba-layer ba-before-layer">
+            <video src="https://assets.mixkit.co/videos/preview/mixkit-working-on-a-video-editing-software-41618-large.mp4" autoplay loop muted playsinline class="ba-video raw-filter"></video>
+            <span class="ba-label label-before">BEFORE: Raw Flat Footage</span>
+          </div>
+
+          <!-- Layer 2: AFTER (Granded & SFX Enhanced) -->
+          <div class="ba-layer ba-after-layer" id="baAfterLayer">
+            <video src="https://assets.mixkit.co/videos/preview/mixkit-working-on-a-video-editing-software-41618-large.mp4" autoplay loop muted playsinline class="ba-video vivid-filter"></video>
+            <span class="ba-label label-after">AFTER: Masum Mz Color Grade & Polish</span>
+          </div>
+
+          <!-- Slider Controls -->
+          <div class="ba-handle" id="baHandle">
+            <div class="ba-line"></div>
+            <div class="ba-circle"><i class="fa-solid fa-code-compare"></i></div>
+          </div>
+          <input type="range" min="0" max="100" value="50" class="ba-slider-input" id="baSlider">
         </div>
       </div>
     </div>
@@ -254,50 +313,44 @@
     </div>
   </section>
 
-  <!-- Software & Tools Section -->
-  <section class="tools-section">
+  <!-- Feature 3: Interactive Sound Effects (SFX) Soundboard -->
+  <section class="sfx-section" id="sfx-board">
     <div class="section-container">
       <div class="section-header text-center">
-        <span class="card-badge">MY TOOLKIT</span>
-        <h2 class="section-title">Software & Tools Mastery</h2>
-        <p class="section-subtitle">Industry-standard software I use daily to craft world-class visual content.</p>
+        <span class="card-badge">AUDIO EXPERIENCE</span>
+        <h2 class="section-title">Interactive Sound Effects (SFX) Board</h2>
+        <p class="section-subtitle">
+          <i class="fa-solid fa-volume-high"></i> Click any button below to listen to the custom sound effects I use in my video edits!
+        </p>
       </div>
 
-      <div class="tools-grid">
-        <div class="tool-card card-pr">
-          <div class="tool-icon-box"><span class="software-badge badge-pr">Pr</span></div>
-          <h3>Premiere Pro</h3>
-          <span class="tool-level">Advanced Editing</span>
+      <div class="sfx-grid">
+        <div class="sfx-card" data-sfx="whoosh">
+          <div class="sfx-icon"><i class="fa-solid fa-wind"></i></div>
+          <h3>Whoosh SFX</h3>
+          <span class="sfx-tag">Fast Transition Sweep</span>
+          <button class="sfx-play-btn"><i class="fa-solid fa-play"></i> Test Sound</button>
         </div>
 
-        <div class="tool-card card-ae">
-          <div class="tool-icon-box"><span class="software-badge badge-ae">Ae</span></div>
-          <h3>After Effects</h3>
-          <span class="tool-level">Motion Graphics & VFX</span>
+        <div class="sfx-card" data-sfx="chaching">
+          <div class="sfx-icon"><i class="fa-solid fa-coins"></i></div>
+          <h3>Cha-Ching SFX</h3>
+          <span class="sfx-tag">Money & Sales Pop</span>
+          <button class="sfx-play-btn"><i class="fa-solid fa-play"></i> Test Sound</button>
         </div>
 
-        <div class="tool-card card-ps">
-          <div class="tool-icon-box"><span class="software-badge badge-ps">Ps</span></div>
-          <h3>Photoshop</h3>
-          <span class="tool-level">Graphic & Thumbnail Design</span>
+        <div class="sfx-card" data-sfx="impact">
+          <div class="sfx-icon"><i class="fa-solid fa-bullhorn"></i></div>
+          <h3>Cinematic Impact</h3>
+          <span class="sfx-tag">Heavy Bass Drop Hit</span>
+          <button class="sfx-play-btn"><i class="fa-solid fa-play"></i> Test Sound</button>
         </div>
 
-        <div class="tool-card card-ai">
-          <div class="tool-icon-box"><span class="software-badge badge-ai">Ai</span></div>
-          <h3>Illustrator</h3>
-          <span class="tool-level">Vector Art & Logos</span>
-        </div>
-
-        <div class="tool-card card-dv">
-          <div class="tool-icon-box"><span class="software-badge badge-dv">Dv</span></div>
-          <h3>DaVinci Resolve</h3>
-          <span class="tool-level">Color Grading & Audio</span>
-        </div>
-
-        <div class="tool-card card-capcut">
-          <div class="tool-icon-box"><span class="software-badge badge-capcut">Cc</span></div>
-          <h3>CapCut Pro</h3>
-          <span class="tool-level">Fast Viral Edits</span>
+        <div class="sfx-card" data-sfx="pop">
+          <div class="sfx-icon"><i class="fa-solid fa-bolt"></i></div>
+          <h3>Subtitle Pop SFX</h3>
+          <span class="sfx-tag">Hormozi Style Caption Pop</span>
+          <button class="sfx-play-btn"><i class="fa-solid fa-play"></i> Test Sound</button>
         </div>
       </div>
     </div>
@@ -412,6 +465,105 @@
             <h3>Finance & Crypto YouTube Thumbnail</h3>
             <p>Custom 3D graphic elements, glow effects, and attention-grabbing typography.</p>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 4: Interactive Project Estimator & Delivery Calculator -->
+  <section class="estimator-section" id="estimator">
+    <div class="section-container">
+      <div class="estimator-box">
+        <div class="estimator-left">
+          <span class="card-badge">PROJECT CALCULATOR</span>
+          <h2 class="section-title">Estimate Your Video Project</h2>
+          <p class="estimator-desc">
+            Select your video type and length below to get instant estimated delivery time and average retention boost!
+          </p>
+
+          <div class="estimator-inputs">
+            <div class="est-group">
+              <label for="estType">Service Required:</label>
+              <select id="estType">
+                <option value="shorts">Reels / Shorts / TikTok Edit</option>
+                <option value="youtube" selected>YouTube Video Editing</option>
+                <option value="motion">Motion Graphics & Visual FX</option>
+              </select>
+            </div>
+
+            <div class="est-group">
+              <label for="estLength">Video Length:</label>
+              <select id="estLength">
+                <option value="short">Under 5 Minutes</option>
+                <option value="medium" selected>5 - 15 Minutes</option>
+                <option value="long">15 - 30 Minutes</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="estimator-right">
+          <div class="est-result-card">
+            <div class="est-stat">
+              <span class="est-label">Estimated Delivery Time</span>
+              <h3 class="est-val" id="outTime">2 - 3 Days</h3>
+            </div>
+            <div class="est-divider"></div>
+            <div class="est-stat">
+              <span class="est-label">Target Retention Boost</span>
+              <h3 class="est-val highlight" id="outRetention">+35% Avg Duration</h3>
+            </div>
+            <a href="#contact" class="primary-btn est-order-btn">Order This Project <i class="fa-solid fa-paper-plane"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Software & Tools Section -->
+  <section class="tools-section">
+    <div class="section-container">
+      <div class="section-header text-center">
+        <span class="card-badge">MY TOOLKIT</span>
+        <h2 class="section-title">Software & Tools Mastery</h2>
+        <p class="section-subtitle">Industry-standard software I use daily to craft world-class visual content.</p>
+      </div>
+
+      <div class="tools-grid">
+        <div class="tool-card card-pr">
+          <div class="tool-icon-box"><span class="software-badge badge-pr">Pr</span></div>
+          <h3>Premiere Pro</h3>
+          <span class="tool-level">Advanced Editing</span>
+        </div>
+
+        <div class="tool-card card-ae">
+          <div class="tool-icon-box"><span class="software-badge badge-ae">Ae</span></div>
+          <h3>After Effects</h3>
+          <span class="tool-level">Motion Graphics & VFX</span>
+        </div>
+
+        <div class="tool-card card-ps">
+          <div class="tool-icon-box"><span class="software-badge badge-ps">Ps</span></div>
+          <h3>Photoshop</h3>
+          <span class="tool-level">Graphic & Thumbnail Design</span>
+        </div>
+
+        <div class="tool-card card-ai">
+          <div class="tool-icon-box"><span class="software-badge badge-ai">Ai</span></div>
+          <h3>Illustrator</h3>
+          <span class="tool-level">Vector Art & Logos</span>
+        </div>
+
+        <div class="tool-card card-dv">
+          <div class="tool-icon-box"><span class="software-badge badge-dv">Dv</span></div>
+          <h3>DaVinci Resolve</h3>
+          <span class="tool-level">Color Grading & Audio</span>
+        </div>
+
+        <div class="tool-card card-capcut">
+          <div class="tool-icon-box"><span class="software-badge badge-capcut">Cc</span></div>
+          <h3>CapCut Pro</h3>
+          <span class="tool-level">Fast Viral Edits</span>
         </div>
       </div>
     </div>

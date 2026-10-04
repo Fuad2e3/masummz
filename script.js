@@ -1,4 +1,4 @@
-// Masum Mz Portfolio - Ultra Reliable IntersectionObserver Counter & Interactive JS
+// Masum Mz Portfolio - Interactive Video Editor Features & Audio Synthesizer
 
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Mobile Navbar Toggle
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (activeBtn) activeBtn.classList.add('active');
   }
 
-  // 4. Ultra Reliable Stats Counter with IntersectionObserver (Scroll Down & Scroll Up)
+  // 4. Ultra Reliable Stats Counter (IntersectionObserver)
   const statsSection = document.querySelector('.stats-bar');
   const statNumbers = document.querySelectorAll('.stat-number');
   let activeAnimIntervals = [];
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const observerOptions = {
       root: null,
       rootMargin: '0px',
-      threshold: 0.2 // Trigger when 20% of stats bar is visible
+      threshold: 0.2
     };
 
     const statsObserver = new IntersectionObserver((entries) => {
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const target = parseInt(num.getAttribute('data-target') || '0', 10);
       const suffix = num.getAttribute('data-suffix') || '';
       let count = 0;
-      const duration = 1200; // 1.2s total count duration
+      const duration = 1200;
       const steps = 30;
       const stepTime = Math.floor(duration / steps);
       const stepValue = Math.max(1, Math.ceil(target / steps));
@@ -163,7 +163,183 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 5. Portfolio Category Filter
+  // 5. Before vs After Interactive Comparison Slider
+  const baSlider = document.getElementById('baSlider');
+  const baAfterLayer = document.getElementById('baAfterLayer');
+  const baHandle = document.getElementById('baHandle');
+
+  if (baSlider && baAfterLayer && baHandle) {
+    baSlider.addEventListener('input', (e) => {
+      const value = e.target.value;
+      baAfterLayer.style.clipPath = `polygon(0 0, ${value}% 0, ${value}% 100%, 0 100%)`;
+      baHandle.style.left = `${value}%`;
+    });
+  }
+
+  // 6. Web Audio API SFX Synthesizer (Instant SFX Preview)
+  let audioCtx = null;
+
+  function getAudioContext() {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    return audioCtx;
+  }
+
+  const sfxBtns = document.querySelectorAll('.sfx-card');
+  sfxBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const sfxType = btn.getAttribute('data-sfx');
+      playSynthesizedSFX(sfxType);
+
+      btn.classList.add('active');
+      setTimeout(() => btn.classList.remove('active'), 400);
+    });
+  });
+
+  function playSynthesizedSFX(type) {
+    const ctx = getAudioContext();
+    const now = ctx.currentTime;
+
+    if (type === 'whoosh') {
+      // Whoosh sound: Noise sweep
+      const bufferSize = ctx.sampleRate * 0.3;
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = Math.random() * 2 - 1;
+      }
+
+      const noise = ctx.createBufferSource();
+      noise.buffer = buffer;
+
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(100, now);
+      filter.frequency.exponentialRampToValueAtTime(1200, now + 0.15);
+      filter.frequency.exponentialRampToValueAtTime(100, now + 0.3);
+
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0.01, now);
+      gain.gain.linearRampToValueAtTime(0.3, now + 0.15);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.3);
+
+      noise.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+
+      noise.start(now);
+      noise.stop(now + 0.3);
+
+    } else if (type === 'chaching') {
+      // Cash Register Cha-Ching: Dual High Sine Tones
+      const osc1 = ctx.createOscillator();
+      const osc2 = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc1.type = 'sine';
+      osc2.type = 'sine';
+
+      osc1.frequency.setValueAtTime(987.77, now); // B5
+      osc1.frequency.setValueAtTime(1318.51, now + 0.08); // E6
+
+      osc2.frequency.setValueAtTime(1318.51, now);
+      osc2.frequency.setValueAtTime(1758.4, now + 0.08);
+
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+
+      osc1.connect(gain);
+      osc2.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc1.start(now);
+      osc2.start(now);
+      osc1.stop(now + 0.35);
+      osc2.stop(now + 0.35);
+
+    } else if (type === 'impact') {
+      // Cinematic Impact Hit: Sub Kick + Noise
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(160, now);
+      osc.frequency.exponentialRampToValueAtTime(30, now + 0.4);
+
+      gain.gain.setValueAtTime(0.5, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.5);
+
+    } else if (type === 'pop') {
+      // Pop Subtitle SFX: Short pitch pop
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(300, now);
+      osc.frequency.exponentialRampToValueAtTime(800, now + 0.08);
+
+      gain.gain.setValueAtTime(0.3, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.1);
+    }
+  }
+
+  // 7. Interactive Live Project Estimator
+  const estType = document.getElementById('estType');
+  const estLength = document.getElementById('estLength');
+  const outTime = document.getElementById('outTime');
+  const outRetention = document.getElementById('outRetention');
+
+  function calculateEstimate() {
+    if (!estType || !estLength || !outTime || !outRetention) return;
+
+    const type = estType.value;
+    const length = estLength.value;
+
+    let timeText = '24 - 48 Hours';
+    let retentionText = '+35% Avg Duration';
+
+    if (type === 'shorts') {
+      timeText = '24 Hours';
+      retentionText = '+60% Completion Rate';
+    } else if (type === 'youtube') {
+      if (length === 'long') {
+        timeText = '3 - 4 Days';
+        retentionText = '+45% Avg Duration';
+      } else {
+        timeText = '2 - 3 Days';
+        retentionText = '+35% Avg Duration';
+      }
+    } else if (type === 'motion') {
+      timeText = '48 Hours';
+      retentionText = 'High Visual Polish';
+    }
+
+    outTime.innerText = timeText;
+    outRetention.innerText = retentionText;
+  }
+
+  if (estType && estLength) {
+    estType.addEventListener('change', calculateEstimate);
+    estLength.addEventListener('change', calculateEstimate);
+  }
+
+  // 8. Portfolio Category Filter
   const filterBtns = document.querySelectorAll('.filter-btn');
   const portfolioCards = document.querySelectorAll('.portfolio-card');
 
@@ -198,7 +374,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 6. Hover Auto-play Video & Pause All Others
+  // 9. Hover Auto-play Video & Pause All Others
   const allPortfolioVideos = document.querySelectorAll('.portfolio-video');
 
   function stopAllVideos() {
@@ -237,7 +413,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 7. Modal Enlarge Video Player
+  // 10. Modal Enlarge Video Player
   const modal = document.getElementById('portfolioModal');
   const modalTitle = document.getElementById('modalTitle');
   const modalCategory = document.getElementById('modalCategory');
@@ -295,7 +471,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 8. Copy to Clipboard & Toast Notification
+  // 11. Copy to Clipboard & Toast Notification
   const copyBtns = document.querySelectorAll('.copy-btn');
   copyBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
@@ -325,7 +501,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 3000);
   }
 
-  // 9. Contact Form Handler
+  // 12. Contact Form Handler
   const contactForm = document.getElementById('contactForm');
   if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
