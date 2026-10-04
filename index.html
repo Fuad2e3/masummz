@@ -3,113 +3,766 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Masum Mz | Video Editor & Graphic Designer</title>
+  <meta name="description" content="Masum Mz - Professional Video Editor & Graphic Designer. High retention YouTube edits, viral Reels & Shorts, Motion Graphics, and High CTR Thumbnails.">
+  <meta name="keywords" content="Masum Mz, Video Editor, Graphic Designer, YouTube Video Editing, Reels Editor, Motion Graphics, Thumbnail Design, Premiere Pro, After Effects">
+  <meta name="author" content="Masum Mz">
+
+  <!-- Open Graph / Social Media Meta Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Masum Mz | Video Editor & Graphic Designer">
+  <meta property="og:description" content="Engaging videos and high-converting designs that boost views and sales. Explore portfolio & hire Masum Mz.">
+  <meta property="og:image" content="your-portrait.jpg">
+
+  <title>Masum Mz | Video Editor & Graphic Designer Portfolio</title>
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Caveat:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- Schema.org Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Masum Mz",
+    "jobTitle": "Video Editor & Graphic Designer",
+    "knowsAbout": ["Video Editing", "Reels", "YouTube Shorts", "Motion Graphics", "Thumbnail Design", "Adobe Premiere Pro", "After Effects"],
+    "description": "Professional Video Editor & Graphic Designer specializing in high-retention video edits and conversion-focused graphic designs."
+  }
+  </script>
 </head>
 <body>
 
-  <!-- Navigation -->
-  <header class="navbar">
-    <div class="logo">
-      <span class="logo-symbol">MZ</span>
-      <div class="logo-text">
-        <span class="brand-name">Masum Mz</span>
-        <span class="brand-tag">Video Editor & Graphic Designer</span>
+  <!-- Top Announcement / Theme Bar -->
+  <div class="top-bar">
+    <div class="top-container">
+      <span class="top-announcement"><i class="fa-solid fa-sparkles"></i> Open for New Freelance Projects & Monthly Content Retainers!</span>
+      <div class="theme-switcher">
+        <span class="theme-label">Accent Theme:</span>
+        <button class="theme-dot dot-green active" data-color="green" title="Neon Green"></button>
+        <button class="theme-dot dot-cyan" data-color="cyan" title="Cyber Cyan"></button>
+        <button class="theme-dot dot-purple" data-color="purple" title="Electric Purple"></button>
+        <button class="theme-dot dot-amber" data-color="amber" title="Sunset Gold"></button>
       </div>
     </div>
+  </div>
 
-    <nav class="nav-links">
-      <a href="#home" class="active">Home</a>
-      <a href="#about">About</a>
-      <a href="#services">Services</a>
-      <a href="#portfolio">Portfolio</a>
-      <a href="#contact">Contact</a>
-    </nav>
+  <!-- Navigation -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="#home" class="logo">
+        <span class="logo-symbol">MZ</span>
+        <div class="logo-text">
+          <span class="brand-name">Masum Mz</span>
+          <span class="brand-tag">Video Editor & Graphic Designer</span>
+        </div>
+      </a>
 
-    <a href="#contact" class="hire-btn">Hire Me <i class="fa-solid fa-paper-plane"></i></a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="#home" class="active">Home</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#process">Process</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#testimonials">Reviews</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
+        <a href="#contact" class="hire-btn mobile-hire-btn">Hire Me <i class="fa-solid fa-paper-plane"></i></a>
+      </nav>
+
+      <a href="#contact" class="hire-btn desktop-hire-btn">Hire Me <i class="fa-solid fa-paper-plane"></i></a>
+    </div>
   </header>
 
   <!-- Hero Section -->
   <section class="hero" id="home">
-    <div class="hero-left">
-      <span class="cursive-sub">Engaging</span>
-      <h1 class="hero-title">
-        VIDEOS & DESIGNS<br>
-        <span class="highlight">THAT CONVERT</span><br>
-        <span class="sub-badge">INTO SALES</span>
-      </h1>
-      <p class="hero-desc">
-        I create engaging videos and impactful designs that help creators and brands grow, connect with their audience, and achieve real results.
-      </p>
-    </div>
+    <div class="hero-container">
+      <div class="hero-left">
+        <div class="hero-badge">
+          <i class="fa-solid fa-bolt"></i> Available for Freelance & Monthly Retainers
+        </div>
+        <span class="cursive-sub">Engaging & High Impact</span>
+        <h1 class="hero-title">
+          VIDEOS & DESIGNS<br>
+          <span class="highlight">THAT CONVERT</span><br>
+          <span class="sub-badge">INTO SALES & VIEWS</span>
+        </h1>
+        <p class="hero-desc">
+          I craft viral-worthy videos, engaging short-form content, and eye-catching graphic designs that help creators and brands grow their audience and boost conversions.
+        </p>
 
-    <div class="hero-right">
-      <div class="glow-circle"></div>
-      <img src="your-cutout-photo.png" alt="Masum Mz" class="hero-img">
-      
-      <!-- Software Icons -->
-      <img src="https://cdn.worldvectorlogo.com/logos/adobe-premiere-pro-cc.svg" class="float-icon icon-pr" alt="Premiere Pro">
-      <img src="https://cdn.worldvectorlogo.com/logos/adobe-after-effects-cc.svg" class="float-icon icon-ae" alt="After Effects">
-      <img src="https://cdn.worldvectorlogo.com/logos/adobe-photoshop-2.svg" class="float-icon icon-ps" alt="Photoshop">
-      <img src="https://cdn.worldvectorlogo.com/logos/adobe-illustrator-cc.svg" class="float-icon icon-ai" alt="Illustrator">
-      <img src="https://cdn.worldvectorlogo.com/logos/davinci-resolve-12.svg" class="float-icon icon-dv" alt="DaVinci Resolve">
-      <img src="https://assets.stickpng.com/images/62bf1f27e57c6b904eb2023d.png" class="float-icon icon-capcut" alt="CapCut">
+        <div class="hero-cta">
+          <a href="#contact" class="primary-btn">Start A Project <i class="fa-solid fa-arrow-right"></i></a>
+          <a href="#portfolio" class="secondary-btn">View Portfolio <i class="fa-solid fa-play"></i></a>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="hero-img-wrapper">
+          <div class="glow-circle"></div>
+          <img src="your-cutout-photo.png" alt="Masum Mz - Video Editor" class="hero-img">
+
+          <!-- Floating Software Icons -->
+          <div class="float-icon icon-pr" title="Adobe Premiere Pro">
+            <img src="https://cdn.worldvectorlogo.com/logos/adobe-premiere-pro-cc.svg" alt="Premiere Pro">
+          </div>
+          <div class="float-icon icon-ae" title="Adobe After Effects">
+            <img src="https://cdn.worldvectorlogo.com/logos/adobe-after-effects-cc.svg" alt="After Effects">
+          </div>
+          <div class="float-icon icon-ps" title="Adobe Photoshop">
+            <img src="https://cdn.worldvectorlogo.com/logos/adobe-photoshop-2.svg" alt="Photoshop">
+          </div>
+          <div class="float-icon icon-ai" title="Adobe Illustrator">
+            <img src="https://cdn.worldvectorlogo.com/logos/adobe-illustrator-cc.svg" alt="Illustrator">
+          </div>
+          <div class="float-icon icon-dv" title="DaVinci Resolve">
+            <img src="https://cdn.worldvectorlogo.com/logos/davinci-resolve-12.svg" alt="DaVinci Resolve">
+          </div>
+          <div class="float-icon icon-capcut" title="CapCut">
+            <img src="https://assets.stickpng.com/images/62bf1f27e57c6b904eb2023d.png" alt="CapCut">
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- Content Showcase Section -->
-  <section class="bottom-showcase">
-    <!-- About Card -->
-    <div class="card about-card" id="about">
-      <div class="about-info">
-        <span class="card-badge">ABOUT ME</span>
-        <h2>Creative Mind.<br><span class="white-text">Details Focused.</span></h2>
-        <p>
-          I'm Masum Mz, a passionate Video Editor & Graphic Designer dedicated to creating content that captures attention and delivers results. I help creators, businesses, and brands transform their ideas into engaging videos and visually compelling designs that leave a lasting impression.
-        </p>
-        <a href="#about" class="outline-btn">More About Me <i class="fa-solid fa-user"></i></a>
+  <!-- Animated Stats Counter Bar -->
+  <section class="stats-bar">
+    <div class="stats-container">
+      <div class="stat-item">
+        <h3 class="stat-number" data-target="150" data-suffix="+">150+</h3>
+        <p class="stat-label">Videos Delivered</p>
       </div>
-      <div class="about-img-box">
-        <img src="your-portrait.jpg" alt="Masum Mz Portrait">
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <h3 class="stat-number" data-target="50" data-suffix="+">50+</h3>
+        <p class="stat-label">Happy Clients</p>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <h3 class="stat-number" data-target="3" data-suffix="+">3+</h3>
+        <p class="stat-label">Years Experience</p>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <h3 class="stat-number" data-target="99" data-suffix="%">99%</h3>
+        <p class="stat-label">Satisfaction Rate</p>
       </div>
     </div>
+  </section>
 
-    <!-- Services Section -->
-    <div class="services-container" id="services">
-      <div class="services-header">
-        <span class="card-badge">SERVICES</span>
-        <h2>What I Do</h2>
+  <!-- About Section -->
+  <section class="about-section" id="about">
+    <div class="section-container">
+      <div class="about-grid">
+        <div class="about-img-box">
+          <div class="about-img-frame">
+            <img src="your-portrait.jpg" alt="Masum Mz Portrait">
+          </div>
+          <div class="experience-badge">
+            <span class="exp-years">3+</span>
+            <span class="exp-text">Years of Creative Excellence</span>
+          </div>
+        </div>
+
+        <div class="about-info">
+          <span class="card-badge">ABOUT ME</span>
+          <h2 class="section-title">Creative Mind.<br><span class="highlight-text">Details Focused.</span></h2>
+          <p class="about-text">
+            Hi, I'm <strong>Masum Mz</strong>, a dedicated Video Editor & Graphic Designer. I turn raw footage into captivating visual stories that retain audience attention and drive engagement. Whether it's long-form YouTube content, high-energy Reels, or click-worthy thumbnails, I bring passion and precise detail to every frame.
+          </p>
+
+          <div class="about-highlights">
+            <div class="highlight-item">
+              <i class="fa-solid fa-circle-check"></i>
+              <span>High Retention Video Editing & Storytelling</span>
+            </div>
+            <div class="highlight-item">
+              <i class="fa-solid fa-circle-check"></i>
+              <span>Custom Sound Design, Transitions & SFX</span>
+            </div>
+            <div class="highlight-item">
+              <i class="fa-solid fa-circle-check"></i>
+              <span>High CTR Thumbnail & Poster Design</span>
+            </div>
+            <div class="highlight-item">
+              <i class="fa-solid fa-circle-check"></i>
+              <span>Fast Turnaround & Unlimited Revisions</span>
+            </div>
+          </div>
+
+          <div class="about-actions">
+            <a href="#contact" class="primary-btn">Hire Me Now <i class="fa-solid fa-paper-plane"></i></a>
+            <a href="https://wa.me/?text=Hello%20Masum%20Mz,%20I%20want%20to%20discuss%20a%20project" target="_blank" class="outline-btn">WhatsApp Chat <i class="fa-brands fa-whatsapp"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section class="services-section" id="services">
+    <div class="section-container">
+      <div class="section-header text-center">
+        <span class="card-badge">MY SERVICES</span>
+        <h2 class="section-title">What I Can Do For You</h2>
+        <p class="section-subtitle">Comprehensive video editing and graphic design solutions tailored to your brand goals.</p>
       </div>
 
       <div class="services-grid">
         <div class="service-box">
-          <i class="fa-solid fa-film service-icon"></i>
-          <h3>Video Editing</h3>
-          <p>YouTube videos, podcasts, interviews, promo content and more.</p>
+          <div class="service-icon-box">
+            <i class="fa-solid fa-film service-icon"></i>
+          </div>
+          <h3>YouTube & Long-form Editing</h3>
+          <p>Engaging edits for YouTube videos, podcasts, interviews, vlogs, and documentaries with smooth cuts, pacing, and color grading.</p>
+          <ul class="service-list">
+            <li><i class="fa-solid fa-check"></i> Color Correction & Grading</li>
+            <li><i class="fa-solid fa-check"></i> Audio Noise Reduction & SFX</li>
+            <li><i class="fa-solid fa-check"></i> B-Roll & Text Overlay</li>
+          </ul>
         </div>
 
         <div class="service-box">
-          <i class="fa-solid fa-clapperboard service-icon"></i>
-          <h3>Reels & Shorts</h3>
-          <p>Engaging short-form content for every platform.</p>
+          <div class="service-icon-box">
+            <i class="fa-solid fa-clapperboard service-icon"></i>
+          </div>
+          <h3>Reels, Shorts & TikToks</h3>
+          <p>Fast-paced, hook-filled short video edits with animated subtitles, sound effects, and eye-catching visual elements.</p>
+          <ul class="service-list">
+            <li><i class="fa-solid fa-check"></i> Dynamic Captions & Emojis</li>
+            <li><i class="fa-solid fa-check"></i> Sound Effects & Trendy Transitions</li>
+            <li><i class="fa-solid fa-check"></i> Optimized for 9:16 Vertical</li>
+          </ul>
         </div>
 
         <div class="service-box">
-          <i class="fa-solid fa-wand-magic-sparkles service-icon"></i>
-          <h3>Motion Graphics</h3>
-          <p>Creative animations, logo reveals & visual effects.</p>
+          <div class="service-icon-box">
+            <i class="fa-solid fa-wand-magic-sparkles service-icon"></i>
+          </div>
+          <h3>Motion Graphics & FX</h3>
+          <p>Custom motion graphics, logo animations, lower thirds, callouts, and special visual effects that elevate video quality.</p>
+          <ul class="service-list">
+            <li><i class="fa-solid fa-check"></i> Animated Intros & Outros</li>
+            <li><i class="fa-solid fa-check"></i> Logo Animation</li>
+            <li><i class="fa-solid fa-check"></i> Title Card & Lower Thirds</li>
+          </ul>
         </div>
 
         <div class="service-box">
-          <i class="fa-solid fa-image service-icon"></i>
-          <h3>Thumbnail Design</h3>
-          <p>Eye-catching thumbnails that boost your CTR.</p>
+          <div class="service-icon-box">
+            <i class="fa-solid fa-image service-icon"></i>
+          </div>
+          <h3>Thumbnail & Graphic Design</h3>
+          <p>High click-through rate (CTR) YouTube thumbnails, social media posts, banners, and branding materials that stand out.</p>
+          <ul class="service-list">
+            <li><i class="fa-solid fa-check"></i> High CTR Thumbnail Design</li>
+            <li><i class="fa-solid fa-check"></i> Channel Banners & Cover Art</li>
+            <li><i class="fa-solid fa-check"></i> Social Media Graphic Assets</li>
+          </ul>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- Portfolio Section -->
+  <section class="portfolio-section" id="portfolio">
+    <div class="section-container">
+      <div class="section-header text-center">
+        <span class="card-badge">MY PORTFOLIO</span>
+        <h2 class="section-title">Featured Work Showcase</h2>
+        <p class="section-subtitle">Click on any project card to view media preview and full project details.</p>
+      </div>
+
+      <!-- Filter Buttons -->
+      <div class="filter-container">
+        <button class="filter-btn active" data-filter="all">All Projects</button>
+        <button class="filter-btn" data-filter="video">Video Editing</button>
+        <button class="filter-btn" data-filter="shorts">Reels & Shorts</button>
+        <button class="filter-btn" data-filter="thumbnail">Thumbnails & Design</button>
+      </div>
+
+      <!-- Portfolio Grid -->
+      <div class="portfolio-grid">
+        <div class="portfolio-card" data-category="video">
+          <div class="portfolio-media">
+            <div class="media-placeholder video-bg-1">
+              <i class="fa-solid fa-play play-icon"></i>
+            </div>
+            <span class="category-badge">Video Editing</span>
+          </div>
+          <div class="portfolio-info">
+            <h3>YouTube Vlog & Storytelling Edit</h3>
+            <p>Pacing optimization, color grading, B-roll integration, and immersive sound design.</p>
+          </div>
+        </div>
+
+        <div class="portfolio-card" data-category="shorts">
+          <div class="portfolio-media">
+            <div class="media-placeholder shorts-bg-1">
+              <i class="fa-solid fa-play play-icon"></i>
+            </div>
+            <span class="category-badge">Shorts / Reels</span>
+          </div>
+          <div class="portfolio-info">
+            <h3>Viral Podcast Clip (Alex Hormozi Style)</h3>
+            <p>Dynamic subtitles, pop-up graphics, SFX, and high retention cuts.</p>
+          </div>
+        </div>
+
+        <div class="portfolio-card" data-category="thumbnail">
+          <div class="portfolio-media">
+            <div class="media-placeholder thumb-bg-1">
+              <i class="fa-solid fa-magnifying-glass-plus view-icon"></i>
+            </div>
+            <span class="category-badge">Thumbnail Design</span>
+          </div>
+          <div class="portfolio-info">
+            <h3>High CTR Gaming & Tech Thumbnail</h3>
+            <p>Vibrant colors, photo manipulation, facial enhancement, and bold text styling.</p>
+          </div>
+        </div>
+
+        <div class="portfolio-card" data-category="video">
+          <div class="portfolio-media">
+            <div class="media-placeholder video-bg-2">
+              <i class="fa-solid fa-play play-icon"></i>
+            </div>
+            <span class="category-badge">Video Editing</span>
+          </div>
+          <div class="portfolio-info">
+            <h3>Corporate Brand Promo & Commercial</h3>
+            <p>Sleek motion graphics, professional voiceover sync, and cinematic transitions.</p>
+          </div>
+        </div>
+
+        <div class="portfolio-card" data-category="shorts">
+          <div class="portfolio-media">
+            <div class="media-placeholder shorts-bg-2">
+              <i class="fa-solid fa-play play-icon"></i>
+            </div>
+            <span class="category-badge">Shorts / Reels</span>
+          </div>
+          <div class="portfolio-info">
+            <h3>Fitness Motivation Instagram Reel</h3>
+            <p>Beat synchronization, color enhancement, and energetic motion overlays.</p>
+          </div>
+        </div>
+
+        <div class="portfolio-card" data-category="thumbnail">
+          <div class="portfolio-media">
+            <div class="media-placeholder thumb-bg-2">
+              <i class="fa-solid fa-magnifying-glass-plus view-icon"></i>
+            </div>
+            <span class="category-badge">Thumbnail Design</span>
+          </div>
+          <div class="portfolio-info">
+            <h3>Finance & Crypto YouTube Thumbnail</h3>
+            <p>Custom 3D graphic elements, glow effects, and attention-grabbing typography.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Work Process / Workflow Timeline Section -->
+  <section class="process-section" id="process">
+    <div class="section-container">
+      <div class="section-header text-center">
+        <span class="card-badge">HOW IT WORKS</span>
+        <h2 class="section-title">Simple 4-Step Workflow</h2>
+        <p class="section-subtitle">A seamless, hassle-free process from raw idea to final viral delivery.</p>
+      </div>
+
+      <div class="process-grid">
+        <div class="process-card">
+          <span class="process-step">01</span>
+          <div class="process-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+          <h3>1. Send Footage & Brief</h3>
+          <p>Share your raw video files via Google Drive, Dropbox, or WeTransfer along with your guidelines.</p>
+        </div>
+
+        <div class="process-card">
+          <span class="process-step">02</span>
+          <div class="process-icon"><i class="fa-solid fa-scissors"></i></div>
+          <h3>2. Rough Cut & Assembly</h3>
+          <p>I remove pauses, select the best takes, arrange pacing, and build the core storyline.</p>
+        </div>
+
+        <div class="process-card">
+          <span class="process-step">03</span>
+          <div class="process-icon"><i class="fa-solid fa-wand-magic"></i></div>
+          <h3>3. Visual Polish & SFX</h3>
+          <p>Adding motion graphics, captions, sound effects, B-roll, background music, and color grading.</p>
+        </div>
+
+        <div class="process-card">
+          <span class="process-step">04</span>
+          <div class="process-icon"><i class="fa-solid fa-circle-check"></i></div>
+          <h3>4. Review & Final Export</h3>
+          <p>You review the draft. I make any requested revisions and deliver full 4K / HD files ready to upload!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Software & Tools Section -->
+  <section class="tools-section" id="tools">
+    <div class="section-container">
+      <div class="section-header text-center">
+        <span class="card-badge">MY TOOLKIT</span>
+        <h2 class="section-title">Software & Tools Mastery</h2>
+        <p class="section-subtitle">Industry-standard software I use daily to craft world-class visual content.</p>
+      </div>
+
+      <div class="tools-grid">
+        <div class="tool-card">
+          <img src="https://cdn.worldvectorlogo.com/logos/adobe-premiere-pro-cc.svg" alt="Adobe Premiere Pro">
+          <h3>Premiere Pro</h3>
+          <span class="tool-level">Advanced Editing</span>
+        </div>
+
+        <div class="tool-card">
+          <img src="https://cdn.worldvectorlogo.com/logos/adobe-after-effects-cc.svg" alt="Adobe After Effects">
+          <h3>After Effects</h3>
+          <span class="tool-level">Motion Graphics & VFX</span>
+        </div>
+
+        <div class="tool-card">
+          <img src="https://cdn.worldvectorlogo.com/logos/adobe-photoshop-2.svg" alt="Adobe Photoshop">
+          <h3>Photoshop</h3>
+          <span class="tool-level">Graphic & Thumbnail Design</span>
+        </div>
+
+        <div class="tool-card">
+          <img src="https://cdn.worldvectorlogo.com/logos/adobe-illustrator-cc.svg" alt="Adobe Illustrator">
+          <h3>Illustrator</h3>
+          <span class="tool-level">Vector Art & Logos</span>
+        </div>
+
+        <div class="tool-card">
+          <img src="https://cdn.worldvectorlogo.com/logos/davinci-resolve-12.svg" alt="DaVinci Resolve">
+          <h3>DaVinci Resolve</h3>
+          <span class="tool-level">Color Grading & Audio</span>
+        </div>
+
+        <div class="tool-card">
+          <img src="https://assets.stickpng.com/images/62bf1f27e57c6b904eb2023d.png" alt="CapCut Pro">
+          <h3>CapCut Pro</h3>
+          <span class="tool-level">Fast Viral Edits</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section class="pricing-section" id="pricing">
+    <div class="section-container">
+      <div class="section-header text-center">
+        <span class="card-badge">TRANSPARENT PRICING</span>
+        <h2 class="section-title">Flexible Pricing & Bundles</h2>
+        <p class="section-subtitle">Choose a package that fits your video frequency and budget.</p>
+      </div>
+
+      <div class="pricing-grid">
+        <div class="price-card">
+          <span class="plan-type">STARTER</span>
+          <h3>Reels & Shorts Pack</h3>
+          <p class="plan-desc">Perfect for creators posting short content on TikTok, Reels, & Shorts.</p>
+          <ul class="price-features">
+            <li><i class="fa-solid fa-check"></i> 5 Short-form Videos (Up to 60s)</li>
+            <li><i class="fa-solid fa-check"></i> Animated Subtitles & SFX</li>
+            <li><i class="fa-solid fa-check"></i> Fast 24-48 hr Delivery</li>
+            <li><i class="fa-solid fa-check"></i> Unlimited Revisions</li>
+          </ul>
+          <a href="#contact" class="outline-btn plan-btn">Select Plan <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+        <div class="price-card featured-plan">
+          <div class="popular-badge">MOST POPULAR</div>
+          <span class="plan-type">PRO CREATOR</span>
+          <h3>YouTube Growth Pack</h3>
+          <p class="plan-desc">Best for active YouTubers and podcasters wanting high retention edits.</p>
+          <ul class="price-features">
+            <li><i class="fa-solid fa-check"></i> 4 Long-form YouTube Edits (Up to 15 mins)</li>
+            <li><i class="fa-solid fa-check"></i> 4 High CTR Custom Thumbnails</li>
+            <li><i class="fa-solid fa-check"></i> Motion Graphics & Color Grading</li>
+            <li><i class="fa-solid fa-check"></i> Full B-Roll & Sound Design</li>
+            <li><i class="fa-solid fa-check"></i> Priority Support</li>
+          </ul>
+          <a href="#contact" class="primary-btn plan-btn">Select Plan <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+        <div class="price-card">
+          <span class="plan-type">CUSTOM RETAINER</span>
+          <h3>Brand & Agency Pass</h3>
+          <p class="plan-desc">Dedicated monthly editor for full channel management and custom needs.</p>
+          <ul class="price-features">
+            <li><i class="fa-solid fa-check"></i> Dedicated Monthly Editing Hours</li>
+            <li><i class="fa-solid fa-check"></i> Long-form + Shorts + Banners</li>
+            <li><i class="fa-solid fa-check"></i> Source Project Files Included</li>
+            <li><i class="fa-solid fa-check"></i> Direct 1-on-1 Slack/WhatsApp</li>
+          </ul>
+          <a href="#contact" class="outline-btn plan-btn">Custom Quote <i class="fa-solid fa-comments"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Client Testimonials Section -->
+  <section class="testimonials-section" id="testimonials">
+    <div class="section-container">
+      <div class="section-header text-center">
+        <span class="card-badge">TESTIMONIALS</span>
+        <h2 class="section-title">What Clients Say</h2>
+        <p class="section-subtitle">Feedback from content creators, YouTubers, and business owners.</p>
+      </div>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="stars">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="review-text">
+            "Masum is incredible! He transformed my raw podcast footage into super engaging YouTube videos. Our average watch time jumped by 35% after hiring him!"
+          </p>
+          <div class="client-info">
+            <div class="client-avatar">RK</div>
+            <div>
+              <h4 class="client-name">Rahim Khan</h4>
+              <span class="client-role">Tech YouTuber (120k Subs)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="review-text">
+            "His Shorts and Instagram Reels edits are top tier. The captions, transitions, and sound effects are always on point and delivered on time!"
+          </p>
+          <div class="client-info">
+            <div class="client-avatar">SA</div>
+            <div>
+              <h4 class="client-name">Sarah Ahmed</h4>
+              <span class="client-role">Digital Creator & Coach</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="review-text">
+            "Masum designed YouTube thumbnails for my channel that boosted my Click-Through Rate from 4.2% to 9.8%! Highly recommended for any creator."
+          </p>
+          <div class="client-info">
+            <div class="client-avatar">MH</div>
+            <div>
+              <h4 class="client-name">Mahmud Hasan</h4>
+              <span class="client-role">Gaming & Tech Channel</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Accordion Section -->
+  <section class="faq-section" id="faq">
+    <div class="section-container">
+      <div class="section-header text-center">
+        <span class="card-badge">FREQUENTLY ASKED QUESTIONS</span>
+        <h2 class="section-title">Got Questions?</h2>
+        <p class="section-subtitle">Here are answers to the most common questions clients ask before starting.</p>
+      </div>
+
+      <div class="faq-accordion">
+        <div class="faq-item active">
+          <div class="faq-question">
+            <h3>How do I send my raw video files to you?</h3>
+            <i class="fa-solid fa-chevron-down faq-icon"></i>
+          </div>
+          <div class="faq-answer">
+            <p>You can upload your raw files to Google Drive, Dropbox, WeTransfer, or Frame.io and share the folder link with me. I will handle the download securely.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <h3>What is your typical turnaround time for a video?</h3>
+            <i class="fa-solid fa-chevron-down faq-icon"></i>
+          </div>
+          <div class="faq-answer">
+            <p>For short-form Reels & Shorts, turnaround is usually 24 to 48 hours. For standard 10-15 minute YouTube videos, delivery takes 2 to 4 business days depending on complexity.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <h3>Do you offer revisions if I want changes made?</h3>
+            <i class="fa-solid fa-chevron-down faq-icon"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Yes! I provide unlimited minor revisions until you are 100% satisfied with the final video cut and design.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <h3>Can I hire you on a monthly retainer basis?</h3>
+            <i class="fa-solid fa-chevron-down faq-icon"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Absolutely! I offer discounted monthly retainer packages for creators and businesses needing a consistent volume of weekly videos.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact-section" id="contact">
+    <div class="section-container">
+      <div class="contact-grid">
+        <div class="contact-info">
+          <span class="card-badge">GET IN TOUCH</span>
+          <h2 class="section-title">Let's Work Together!</h2>
+          <p class="contact-desc">
+            Have a video project in mind, need viral short-form content, or click-boosting thumbnails? Send me a message and let's make your vision a reality.
+          </p>
+
+          <div class="contact-details">
+            <div class="contact-item">
+              <div class="icon-circle"><i class="fa-solid fa-envelope"></i></div>
+              <div>
+                <span class="contact-label">Email Me</span>
+                <p class="contact-val">
+                  contact@masummz.com
+                  <button class="copy-btn" data-copy="contact@masummz.com" title="Copy Email"><i class="fa-solid fa-copy"></i></button>
+                </p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="icon-circle"><i class="fa-brands fa-whatsapp"></i></div>
+              <div>
+                <span class="contact-label">WhatsApp</span>
+                <p class="contact-val">
+                  <a href="https://wa.me/" target="_blank">Chat on WhatsApp</a>
+                  <button class="copy-btn" data-copy="WhatsApp: Contact Masum Mz" title="Copy Link"><i class="fa-solid fa-copy"></i></button>
+                </p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="icon-circle"><i class="fa-solid fa-location-dot"></i></div>
+              <div>
+                <span class="contact-label">Location</span>
+                <p class="contact-val">Available Worldwide (Remote)</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="social-links">
+            <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+          </div>
+        </div>
+
+        <div class="contact-form-box">
+          <h3>Send A Message</h3>
+          <div id="formSuccess" class="form-success" style="display: none;">
+            <i class="fa-solid fa-circle-check"></i> Thank you! Your message has been sent successfully.
+          </div>
+          <form id="contactForm">
+            <div class="form-group">
+              <label for="name">Your Name</label>
+              <input type="text" id="name" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Your Email</label>
+              <input type="email" id="email" placeholder="Enter your email address" required>
+            </div>
+
+            <div class="form-group">
+              <label for="service">Service Required</label>
+              <select id="service" required>
+                <option value="" disabled selected>Select a service</option>
+                <option value="video">YouTube Video Editing</option>
+                <option value="shorts">Reels & Shorts Editing</option>
+                <option value="motion">Motion Graphics</option>
+                <option value="thumbnail">Thumbnail & Graphic Design</option>
+                <option value="retainer">Monthly Retainer</option>
+                <option value="other">Other Query</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="message">Project Details</label>
+              <textarea id="message" rows="4" placeholder="Describe your project, deadlines, or budget..." required></textarea>
+            </div>
+
+            <button type="submit" class="primary-btn submit-btn">
+              Send Message <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Portfolio Media Popup Modal -->
+  <div class="portfolio-modal" id="portfolioModal" aria-hidden="true">
+    <div class="modal-content">
+      <button class="modal-close" id="modalClose" aria-label="Close modal">&times;</button>
+      <span class="card-badge" id="modalCategory">CATEGORY</span>
+      <h2 id="modalTitle">Project Title</h2>
+      <div class="modal-media-container" id="modalMediaContainer">
+        <!-- Loaded dynamically via JS -->
+      </div>
+      <p id="modalDesc">Project description goes here...</p>
+      <div class="modal-actions">
+        <a href="#contact" class="primary-btn modal-hire-btn">Hire For Similar Project <i class="fa-solid fa-paper-plane"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-logo">
+        <span class="logo-symbol">MZ</span>
+        <span class="brand-name">Masum Mz</span>
+      </div>
+      <p class="copyright">&copy; 2025 Masum Mz. All rights reserved. Crafting Visual Stories.</p>
+      <a href="#home" class="back-to-top" aria-label="Back to top">
+        <i class="fa-solid fa-arrow-up"></i>
+      </a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
