@@ -1,4 +1,4 @@
-// Masum Mz Portfolio - Interactive JS & Re-triggering Counter Animation
+// Masum Mz Portfolio - Ultra Reliable IntersectionObserver Counter & Interactive JS
 
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Mobile Navbar Toggle
@@ -54,13 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       navbar?.classList.remove('scrolled');
     }
-
-    // Check Stats Visibility on Every Scroll
-    checkStatsVisibility();
   });
-
-  // Initial check on page load
-  checkStatsVisibility();
 
   // 3. Theme Color Accent Switcher
   const themeBtns = document.querySelectorAll('.theme-dot');
@@ -108,27 +102,29 @@ document.addEventListener('DOMContentLoaded', () => {
     if (activeBtn) activeBtn.classList.add('active');
   }
 
-  // 4. Re-triggering Animated Stats Counter (Triggers on scroll down & scroll up)
+  // 4. Ultra Reliable Stats Counter with IntersectionObserver (Scroll Down & Scroll Up)
   const statsSection = document.querySelector('.stats-bar');
   const statNumbers = document.querySelectorAll('.stat-number');
-  let isStatsInView = false;
   let activeAnimIntervals = [];
 
-  function checkStatsVisibility() {
-    if (!statsSection) return;
-    const rect = statsSection.getBoundingClientRect();
-    const windowHeight = window.innerHeight;
+  if (statsSection && statNumbers.length > 0) {
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.2 // Trigger when 20% of stats bar is visible
+    };
 
-    // Check if section is visible in viewport
-    const inView = rect.top <= windowHeight - 50 && rect.bottom >= 50;
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateStatNumbers();
+        } else {
+          resetStatNumbers();
+        }
+      });
+    }, observerOptions);
 
-    if (inView && !isStatsInView) {
-      isStatsInView = true;
-      animateStatNumbers();
-    } else if (!inView && isStatsInView) {
-      isStatsInView = false;
-      resetStatNumbers();
-    }
+    statsObserver.observe(statsSection);
   }
 
   function animateStatNumbers() {
@@ -139,17 +135,20 @@ document.addEventListener('DOMContentLoaded', () => {
       const target = parseInt(num.getAttribute('data-target') || '0', 10);
       const suffix = num.getAttribute('data-suffix') || '';
       let count = 0;
-      const step = Math.max(1, Math.ceil(target / 30));
+      const duration = 1200; // 1.2s total count duration
+      const steps = 30;
+      const stepTime = Math.floor(duration / steps);
+      const stepValue = Math.max(1, Math.ceil(target / steps));
 
       const intervalId = setInterval(() => {
-        count += step;
+        count += stepValue;
         if (count >= target) {
           num.innerText = target + suffix;
           clearInterval(intervalId);
         } else {
           num.innerText = count + suffix;
         }
-      }, 35);
+      }, stepTime);
 
       activeAnimIntervals.push(intervalId);
     });
@@ -286,7 +285,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function closeModal() {
     if (modal) {
-      modal.classList.remove('remove');
       modal.classList.remove('open');
       document.body.style.overflow = '';
       if (modalMediaContainer) {
