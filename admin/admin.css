@@ -109,22 +109,29 @@ body {
 .pin-display-input {
   width: 100%;
   background: rgba(2, 7, 3, 0.9);
-  border: 2px solid var(--admin-border);
+  border: 1.5px solid var(--admin-border);
   border-radius: 12px;
-  padding: 0.85rem 1rem;
-  font-size: 1.8rem;
-  letter-spacing: 12px;
-  text-align: center;
-  color: var(--admin-primary);
+  padding: 0.95rem 3rem 0.95rem 1.2rem;
+  font-size: 1rem;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
   font-family: inherit;
-  font-weight: 700;
+  font-weight: 500;
   outline: none;
   transition: var(--admin-trans);
+}
+
+.pin-display-input::placeholder {
+  color: var(--admin-text-muted);
+  font-size: 0.9rem;
+  letter-spacing: normal;
 }
 
 .pin-display-input:focus {
   border-color: var(--admin-primary);
   box-shadow: 0 0 15px var(--admin-glow);
+  background: rgba(4, 14, 6, 0.95);
 }
 
 .pin-toggle-visibility {
@@ -138,6 +145,7 @@ body {
   font-size: 1.1rem;
   cursor: pointer;
   padding: 0.3rem;
+  transition: color var(--admin-trans);
 }
 
 .pin-toggle-visibility:hover {
@@ -146,46 +154,10 @@ body {
 
 .pin-error-msg {
   color: var(--admin-danger);
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   min-height: 1.2rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
   font-weight: 500;
-}
-
-/* Keypad Grid */
-.pin-keypad {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.8rem;
-  margin-bottom: 1.5rem;
-}
-
-.key-btn {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 0.9rem 0;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--admin-text);
-  cursor: pointer;
-  transition: var(--admin-trans);
-}
-
-.key-btn:hover {
-  background: rgba(0, 255, 136, 0.15);
-  border-color: var(--admin-primary);
-  color: var(--admin-primary);
-  transform: translateY(-2px);
-}
-
-.key-btn:active {
-  transform: scale(0.95);
-}
-
-.key-action {
-  font-size: 1rem;
-  color: var(--admin-text-sub);
 }
 
 .pin-submit-btn {

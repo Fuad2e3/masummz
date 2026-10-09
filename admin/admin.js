@@ -69,10 +69,10 @@
   // DOM Elements
   const pinScreen = document.getElementById('pinScreen');
   const pinInput = document.getElementById('pinInput');
+  const pinAuthForm = document.getElementById('pinAuthForm');
   const pinErrorMsg = document.getElementById('pinErrorMsg');
   const pinSubmitBtn = document.getElementById('pinSubmitBtn');
   const togglePinVisibility = document.getElementById('togglePinVisibility');
-  const keypadBtns = document.querySelectorAll('.key-btn');
   const logoutBtn = document.getElementById('logoutBtn');
   const projectsGrid = document.getElementById('adminProjectsGrid');
   const projectModal = document.getElementById('projectModal');
@@ -134,13 +134,23 @@
       pinSubmitBtn.addEventListener('click', verifyPin);
     }
 
-    // Keyboard Input Enter
+    // Form & Enter key submission
+    if (pinAuthForm) {
+      pinAuthForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        verifyPin();
+      });
+    }
+
     if (pinInput) {
       pinInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
           e.preventDefault();
           verifyPin();
         }
+      });
+      pinInput.addEventListener('input', () => {
+        if (pinErrorMsg) pinErrorMsg.innerText = '';
       });
     }
 
@@ -154,23 +164,6 @@
           : '<i class="fa-solid fa-eye"></i>';
       });
     }
-
-    // On-screen Keypad Clicks
-    keypadBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const key = btn.getAttribute('data-key');
-        if (key === 'clear') {
-          pinInput.value = '';
-        } else if (key === 'back') {
-          pinInput.value = pinInput.value.slice(0, -1);
-        } else if (key !== null) {
-          if (pinInput.value.length < 8) {
-            pinInput.value += key;
-          }
-        }
-        pinErrorMsg.innerText = '';
-      });
-    });
 
     // Logout Click
     if (logoutBtn) {
