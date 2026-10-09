@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Masum Mz | Portfolio Admin Portal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <!-- ==============================================
+       1. SECURITY PIN GATEKEEPER SCREEN
+       ============================================== -->
+  <div class="pin-screen-wrapper" id="pinScreen">
+    <div class="pin-card">
+      <div class="pin-icon-circle">
+        <i class="fa-solid fa-lock"></i>
+      </div>
+      <h2 class="pin-title">Security Access PIN</h2>
+      <p class="pin-subtitle">Enter your 4-digit PIN to access Masum Mz Portfolio Admin</p>
+
+      <div class="pin-input-group">
+        <input type="password" id="pinInput" class="pin-display-input" maxlength="8" placeholder="••••" autocomplete="off" autofocus>
+        <button type="button" class="pin-toggle-visibility" id="togglePinVisibility" title="Show/Hide PIN">
+          <i class="fa-solid fa-eye"></i>
+        </button>
+      </div>
+
+      <div class="pin-error-msg" id="pinErrorMsg"></div>
+
+      <!-- Quick Numeric Touch Keypad -->
+      <div class="pin-keypad">
+        <button type="button" class="key-btn" data-key="1">1</button>
+        <button type="button" class="key-btn" data-key="2">2</button>
+        <button type="button" class="key-btn" data-key="3">3</button>
+        <button type="button" class="key-btn" data-key="4">4</button>
+        <button type="button" class="key-btn" data-key="5">5</button>
+        <button type="button" class="key-btn" data-key="6">6</button>
+        <button type="button" class="key-btn" data-key="7">7</button>
+        <button type="button" class="key-btn" data-key="8">8</button>
+        <button type="button" class="key-btn" data-key="9">9</button>
+        <button type="button" class="key-btn key-action" data-key="clear">CLR</button>
+        <button type="button" class="key-btn" data-key="0">0</button>
+        <button type="button" class="key-btn key-action" data-key="back"><i class="fa-solid fa-delete-left"></i></button>
+      </div>
+
+      <button type="button" class="pin-submit-btn" id="pinSubmitBtn">
+        <i class="fa-solid fa-key"></i> Unlock Dashboard
+      </button>
+
+      <p class="pin-hint"><i class="fa-solid fa-shield-halved"></i> Default PIN: <strong>1234</strong> (Customizable in settings)</p>
+    </div>
+  </div>
+
+  <!-- ==============================================
+       2. ADMIN APPLICATION MAIN VIEW
+       ============================================== -->
+  <div class="admin-app" id="adminApp">
+
+    <!-- Top Navigation Bar -->
+    <header class="admin-navbar">
+      <div class="admin-nav-container">
+        <a href="../" class="admin-logo" target="_blank" title="Open Live Site">
+          <img src="../assets/Mz Logo 02.png" alt="Masum Mz Logo" class="admin-logo-img">
+          <div>
+            <span class="admin-logo-title">Masum Mz</span>
+            <span class="admin-logo-badge">ADMIN PORTAL</span>
+          </div>
+        </a>
+
+        <div class="admin-header-actions">
+          <a href="../" class="btn-secondary" target="_blank" title="View Portfolio Live">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Website
+          </a>
+          <button type="button" class="btn-secondary" id="changePinBtn" title="Change Security PIN">
+            <i class="fa-solid fa-shield"></i> Change PIN
+          </button>
+          <button type="button" class="btn-secondary btn-logout" id="logoutBtn" title="Lock & Logout">
+            <i class="fa-solid fa-right-from-bracket"></i> Lock / Logout
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="admin-container">
+
+      <!-- Overview Header Panel -->
+      <section class="dashboard-header-panel">
+        <div class="dash-title-box">
+          <h1>Portfolio Projects Manager</h1>
+          <p>Add, edit, reorder, or delete video editing and design projects displayed on your website.</p>
+        </div>
+
+        <div class="stats-pills-row">
+          <div class="stat-pill">
+            <i class="fa-solid fa-layer-group"></i>
+            <div>
+              <span class="stat-pill-label">Total Projects</span>
+              <span class="stat-pill-val" id="statTotal">0</span>
+            </div>
+          </div>
+          <div class="stat-pill">
+            <i class="fa-solid fa-video"></i>
+            <div>
+              <span class="stat-pill-label">Video Edits</span>
+              <span class="stat-pill-val" id="statVideos">0</span>
+            </div>
+          </div>
+          <div class="stat-pill">
+            <i class="fa-solid fa-mobile-screen"></i>
+            <div>
+              <span class="stat-pill-label">Reels / Shorts</span>
+              <span class="stat-pill-val" id="statShorts">0</span>
+            </div>
+          </div>
+          <div class="stat-pill">
+            <i class="fa-solid fa-image"></i>
+            <div>
+              <span class="stat-pill-label">Thumbnails</span>
+              <span class="stat-pill-val" id="statThumbnails">0</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Projects Controls & Filter Bar -->
+      <section class="projects-action-bar">
+        <!-- Category Filter Tabs -->
+        <div class="category-filter-tabs">
+          <button type="button" class="tab-btn active" data-filter="all">All Projects</button>
+          <button type="button" class="tab-btn" data-filter="video">Video Editing</button>
+          <button type="button" class="tab-btn" data-filter="shorts">Reels & Shorts</button>
+          <button type="button" class="tab-btn" data-filter="thumbnail">Thumbnails & Design</button>
+        </div>
+
+        <!-- Action Buttons -->
+        <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+          <button type="button" class="btn-secondary" id="exportBtn" title="Export JSON Backup">
+            <i class="fa-solid fa-download"></i> Backup JSON
+          </button>
+          <button type="button" class="btn-secondary" id="resetDefaultsBtn" title="Restore default 6 projects">
+            <i class="fa-solid fa-rotate-left"></i> Reset Defaults
+          </button>
+          <button type="button" class="btn-primary" id="openAddModalBtn">
+            <i class="fa-solid fa-plus"></i> Add New Project
+          </button>
+        </div>
+      </section>
+
+      <!-- Projects Grid Display -->
+      <section class="admin-projects-grid" id="adminProjectsGrid">
+        <!-- Loaded dynamically via admin.js -->
+      </section>
+    </main>
+  </div>
+
+  <!-- ==============================================
+       3. ADD / EDIT PROJECT MODAL
+       ============================================== -->
+  <div class="admin-modal" id="projectModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h2 id="modalTitle">Add New Project</h2>
+        <button type="button" class="modal-close-btn" id="modalCloseBtn">&times;</button>
+      </div>
+
+      <form id="projectForm">
+        <div class="form-group">
+          <label for="projectTitle">Project Title *</label>
+          <input type="text" id="projectTitle" class="form-input" placeholder="e.g. Cinematic Tech Review Edit" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="projectCategory">Category *</label>
+            <select id="projectCategory" class="form-select" required>
+              <option value="video">Video Editing</option>
+              <option value="shorts">Reels & Shorts</option>
+              <option value="thumbnail">Thumbnails & Design</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="mediaType">Media Format *</label>
+            <select id="mediaType" class="form-select" required>
+              <option value="video">Video (MP4 / WebM)</option>
+              <option value="image">Image / Thumbnail (JPG, PNG)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="mediaUrl">Media Direct URL * <span>(MP4 video or JPG/PNG image link)</span></label>
+          <input type="url" id="mediaUrl" class="form-input" placeholder="https://assets.mixkit.co/...mp4 or image URL" required>
+          <div class="preview-media-container" id="previewBox">
+            <!-- Live Preview Loads dynamically -->
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="projectDesc">Project Description</label>
+          <textarea id="projectDesc" class="form-textarea" rows="3" placeholder="Pacing optimization, color grading, sound design, motion graphics..."></textarea>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" id="modalCancelBtn">Cancel</button>
+          <button type="submit" class="btn-primary" id="saveProjectBtn">
+            <i class="fa-solid fa-floppy-disk"></i> Save Project
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==============================================
+       4. CHANGE PIN MODAL
+       ============================================== -->
+  <div class="admin-modal" id="changePinModal" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 440px;">
+      <div class="modal-header">
+        <h2>Change Security PIN</h2>
+        <button type="button" class="modal-close-btn" id="changePinCloseBtn">&times;</button>
+      </div>
+
+      <form id="changePinForm">
+        <div class="form-group">
+          <label for="currentPin">Current PIN *</label>
+          <input type="password" id="currentPin" class="form-input" maxlength="8" placeholder="Enter current PIN" required>
+        </div>
+
+        <div class="form-group">
+          <label for="newPin">New PIN * <span>(at least 4 digits)</span></label>
+          <input type="password" id="newPin" class="form-input" maxlength="8" placeholder="Enter new PIN" required>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmNewPin">Confirm New PIN *</label>
+          <input type="password" id="confirmNewPin" class="form-input" maxlength="8" placeholder="Repeat new PIN" required>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" id="changePinCancelBtn">Cancel</button>
+          <button type="submit" class="btn-primary">
+            <i class="fa-solid fa-check"></i> Save New PIN
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

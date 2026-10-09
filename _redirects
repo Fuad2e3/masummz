@@ -1,0 +1,5 @@
+# Cloudflare Pages Redirects & Clean Routing Rules
+# Maps /admin and /admin.html cleanly to /admin/
+/admin          /admin/                 301
+/admin.html     /admin/                 301
+/admin/*        /admin/index.html       200

@@ -339,81 +339,200 @@ document.addEventListener('DOMContentLoaded', () => {
     estLength.addEventListener('change', calculateEstimate);
   }
 
-  // 8. Portfolio Category Filter
+  // 8. Dynamic Portfolio Loading from Admin / LocalStorage
+  const PROJECTS_STORAGE_KEY = 'masummz_portfolio_projects';
+  const portfolioGrid = document.querySelector('.portfolio-grid');
   const filterBtns = document.querySelectorAll('.filter-btn');
-  const portfolioCards = document.querySelectorAll('.portfolio-card');
+  let currentPortfolioFilter = 'all';
+
+  const DEFAULT_PORTFOLIO_PROJECTS = [
+    {
+      id: 'proj_1',
+      title: 'YouTube Vlog & Storytelling Edit',
+      category: 'video',
+      categoryName: 'Video Editing',
+      mediaType: 'video',
+      mediaUrl: 'https://assets.mixkit.co/videos/preview/mixkit-working-on-a-video-editing-software-41618-large.mp4',
+      desc: 'Pacing optimization, color grading, B-roll integration, and sound design.'
+    },
+    {
+      id: 'proj_2',
+      title: 'Viral Podcast Clip (Alex Hormozi Style)',
+      category: 'shorts',
+      categoryName: 'Shorts / Reels',
+      mediaType: 'video',
+      mediaUrl: 'https://assets.mixkit.co/videos/preview/mixkit-young-man-recording-a-video-blog-41589-large.mp4',
+      desc: 'Dynamic subtitles, pop-up graphics, SFX, and high retention cuts.'
+    },
+    {
+      id: 'proj_3',
+      title: 'Motion Graphics & Visual FX Edit',
+      category: 'video',
+      categoryName: 'Motion Graphics',
+      mediaType: 'video',
+      mediaUrl: 'https://assets.mixkit.co/videos/preview/mixkit-editing-a-video-on-a-computer-41617-large.mp4',
+      desc: 'Sleek motion graphics, logo animations, lower thirds, and callouts.'
+    },
+    {
+      id: 'proj_4',
+      title: 'Fitness & Fashion Reels Edit',
+      category: 'shorts',
+      categoryName: 'Shorts / Reels',
+      mediaType: 'video',
+      mediaUrl: 'https://assets.mixkit.co/videos/preview/mixkit-fashion-model-posing-for-a-photoshoot-41584-large.mp4',
+      desc: 'Beat synchronization, color enhancement, and energetic motion overlays.'
+    },
+    {
+      id: 'proj_5',
+      title: 'High CTR Gaming & Tech Thumbnail',
+      category: 'thumbnail',
+      categoryName: 'Thumbnail Design',
+      mediaType: 'image',
+      mediaUrl: 'https://assets.mixkit.co/videos/preview/mixkit-creative-designer-working-on-a-tablet-41588-large.mp4',
+      desc: 'Vibrant colors, photo manipulation, facial enhancement, and bold text styling.'
+    },
+    {
+      id: 'proj_6',
+      title: 'Finance & Crypto YouTube Thumbnail',
+      category: 'thumbnail',
+      categoryName: 'Thumbnail Design',
+      mediaType: 'image',
+      mediaUrl: 'https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-man-playing-a-video-game-41585-large.mp4',
+      desc: 'Custom 3D graphic elements, glow effects, and attention-grabbing typography.'
+    }
+  ];
+
+  function getActiveProjects() {
+    try {
+      const saved = localStorage.getItem(PROJECTS_STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {
+      console.error('Error loading portfolio:', e);
+    }
+    return DEFAULT_PORTFOLIO_PROJECTS;
+  }
+
+  function renderPortfolio() {
+    if (!portfolioGrid) return;
+    const projects = getActiveProjects();
+
+    portfolioGrid.innerHTML = projects.map(item => {
+      const isVideo = item.mediaType === 'video' || (item.mediaUrl && item.mediaUrl.match(/\.(mp4|webm|mov)($|\?)/i));
+      const categoryLabel = item.categoryName || (item.category === 'shorts' ? 'Shorts / Reels' : item.category === 'thumbnail' ? 'Thumbnail Design' : 'Video Editing');
+      const hoverOverlay = isVideo
+        ? `<div class="video-overlay"><i class="fa-solid fa-play hover-play-icon"></i><span class="hover-text">Hover to Play | Click to Enlarge</span></div>`
+        : `<div class="video-overlay"><i class="fa-solid fa-magnifying-glass-plus hover-play-icon"></i><span class="hover-text">Click to View Design</span></div>`;
+      const mediaElement = isVideo
+        ? `<video class="portfolio-video" src="${item.mediaUrl}" muted loop playsinline preload="metadata"></video>`
+        : `<img src="${item.mediaUrl}" alt="${item.title}" class="portfolio-thumb-img" style="width:100%;height:100%;object-fit:cover;display:block;">`;
+
+      return `
+        <div class="portfolio-card" data-category="${item.category}" data-media-type="${isVideo ? 'video' : 'image'}">
+          <div class="portfolio-media">
+            ${mediaElement}
+            ${hoverOverlay}
+            <span class="category-badge">${categoryLabel}</span>
+          </div>
+          <div class="portfolio-info">
+            <h3>${item.title}</h3>
+            <p>${item.desc || ''}</p>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    bindPortfolioCardInteractions();
+    applyCategoryFilter(currentPortfolioFilter);
+  }
+
+  function bindPortfolioCardInteractions() {
+    const cards = document.querySelectorAll('.portfolio-card');
+
+    cards.forEach(card => {
+      const video = card.querySelector('.portfolio-video');
+
+      if (video) {
+        card.addEventListener('mouseenter', () => {
+          stopAllVideos();
+          card.classList.add('playing');
+          video.play().catch(e => console.log('Autoplay prevented:', e));
+        });
+
+        card.addEventListener('mouseleave', () => {
+          video.pause();
+          video.currentTime = 0;
+          card.classList.remove('playing');
+        });
+      }
+
+      card.addEventListener('click', () => {
+        stopAllVideos();
+        const title = card.querySelector('h3')?.innerText || 'Portfolio Preview';
+        const desc = card.querySelector('p')?.innerText || '';
+        const category = card.querySelector('.category-badge')?.innerText || card.getAttribute('data-category') || '';
+        const mediaType = card.getAttribute('data-media-type') || 'video';
+        const mediaSrc = video ? video.getAttribute('src') : card.querySelector('img')?.getAttribute('src');
+
+        openModal(title, category, desc, mediaSrc, mediaType);
+      });
+    });
+  }
+
+  function stopAllVideos() {
+    document.querySelectorAll('.portfolio-video').forEach(v => {
+      v.pause();
+      v.currentTime = 0;
+    });
+    document.querySelectorAll('.portfolio-card').forEach(c => c.classList.remove('playing'));
+  }
+
+  function applyCategoryFilter(filterValue) {
+    currentPortfolioFilter = filterValue;
+    const cards = document.querySelectorAll('.portfolio-card');
+
+    cards.forEach(item => {
+      const video = item.querySelector('video');
+      if (video) {
+        video.pause();
+        video.currentTime = 0;
+      }
+
+      if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+        item.style.display = 'block';
+        setTimeout(() => {
+          item.style.opacity = '1';
+          item.style.transform = 'scale(1)';
+        }, 30);
+      } else {
+        item.style.opacity = '0';
+        item.style.transform = 'scale(0.9)';
+        setTimeout(() => {
+          item.style.display = 'none';
+        }, 200);
+      }
+    });
+  }
 
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-
-      const filterValue = btn.getAttribute('data-filter');
-
-      portfolioCards.forEach(item => {
-        const video = item.querySelector('video');
-        if (video) {
-          video.pause();
-          video.currentTime = 0;
-        }
-
-        if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
-          item.style.display = 'block';
-          setTimeout(() => {
-            item.style.opacity = '1';
-            item.style.transform = 'scale(1)';
-          }, 50);
-        } else {
-          item.style.opacity = '0';
-          item.style.transform = 'scale(0.9)';
-          setTimeout(() => {
-            item.style.display = 'none';
-          }, 250);
-        }
-      });
+      applyCategoryFilter(btn.getAttribute('data-filter'));
     });
   });
 
-  // 9. Hover Auto-play Video & Pause All Others
-  const allPortfolioVideos = document.querySelectorAll('.portfolio-video');
-
-  function stopAllVideos() {
-    allPortfolioVideos.forEach(v => {
-      v.pause();
-      v.currentTime = 0;
-    });
-    portfolioCards.forEach(c => c.classList.remove('playing'));
-  }
-
-  portfolioCards.forEach(card => {
-    const video = card.querySelector('.portfolio-video');
-
-    if (video) {
-      card.addEventListener('mouseenter', () => {
-        stopAllVideos();
-        card.classList.add('playing');
-        video.play().catch(err => console.log('Autoplay prevented:', err));
-      });
-
-      card.addEventListener('mouseleave', () => {
-        video.pause();
-        video.currentTime = 0;
-        card.classList.remove('playing');
-      });
-    }
-
-    card.addEventListener('click', () => {
-      stopAllVideos();
-      const title = card.querySelector('h3')?.innerText || 'Portfolio Video Preview';
-      const desc = card.querySelector('p')?.innerText || '';
-      const category = card.getAttribute('data-category') || 'Video Editing';
-      const videoSrc = video?.getAttribute('src') || card.getAttribute('data-video-src');
-
-      openModal(title, category, desc, videoSrc);
-    });
+  // Listen for storage events (realtime sync across tabs from /admin)
+  window.addEventListener('storage', () => {
+    renderPortfolio();
   });
 
-  // 10. Modal Enlarge Video Player
+  // Initial portfolio render
+  renderPortfolio();
+
+  // 10. Modal Enlarge Video & Image Player
   const modal = document.getElementById('portfolioModal');
   const modalTitle = document.getElementById('modalTitle');
   const modalCategory = document.getElementById('modalCategory');
@@ -421,23 +540,31 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalMediaContainer = document.getElementById('modalMediaContainer');
   const modalClose = document.getElementById('modalClose');
 
-  function openModal(title, category, desc, videoSrc) {
+  function openModal(title, category, desc, mediaSrc, mediaType = 'video') {
     if (modalTitle) modalTitle.innerText = title;
     if (modalCategory) modalCategory.innerText = category.toUpperCase();
     if (modalDesc) modalDesc.innerText = desc;
 
     if (modalMediaContainer) {
-      if (videoSrc) {
-        modalMediaContainer.innerHTML = `
-          <div class="modal-video-wrapper">
-            <video src="${videoSrc}" controls autoplay playsinline class="modal-large-video"></video>
-          </div>
-        `;
+      if (mediaSrc) {
+        if (mediaType === 'image') {
+          modalMediaContainer.innerHTML = `
+            <div class="modal-image-wrapper" style="text-align:center;max-height:480px;display:flex;align-items:center;justify-content:center;">
+              <img src="${mediaSrc}" alt="${title}" class="modal-large-img" style="max-width:100%;max-height:460px;border-radius:10px;object-fit:contain;">
+            </div>
+          `;
+        } else {
+          modalMediaContainer.innerHTML = `
+            <div class="modal-video-wrapper">
+              <video src="${mediaSrc}" controls autoplay playsinline class="modal-large-video"></video>
+            </div>
+          `;
+        }
       } else {
         modalMediaContainer.innerHTML = `
           <div class="modal-placeholder-preview">
             <i class="fa-solid fa-play-circle modal-play-icon"></i>
-            <p>High Quality Video Preview for <strong>${title}</strong></p>
+            <p>Preview for <strong>${title}</strong></p>
           </div>
         `;
       }
