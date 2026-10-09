@@ -183,16 +183,37 @@
     }
   }
 
-  function verifyPin() {
+  async function verifyPin() {
     const entered = pinInput.value.trim();
     const correctPin = getStoredPin();
 
-    if (entered === correctPin) {
+    let isValid = (entered === correctPin);
+    try {
+      const res = await fetch('/api/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'verify', pin: entered })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && !data.fallback) {
+          isValid = true;
+          setStoredPin(entered);
+        }
+      } else if (res.status === 401) {
+        isValid = false;
+      }
+    } catch (e) {
+      // Local fallback
+    }
+
+    if (isValid) {
       sessionStorage.setItem(AUTH_KEY, 'true');
       unlockDashboard();
       showToast('Welcome back, Masum Mz!');
       pinInput.value = '';
       pinErrorMsg.innerText = '';
+      fetchProjectsFromD1();
     } else {
       const card = document.querySelector('.pin-card');
       if (card) {
@@ -200,7 +221,7 @@
         void card.offsetWidth; // Trigger reflow
         card.classList.add('shake-anim');
       }
-      pinErrorMsg.innerText = 'Incorrect PIN! (Default is ' + DEFAULT_PIN + ')';
+      pinErrorMsg.innerText = 'Incorrect PIN! (Default is ' + correctPin + ')';
       pinInput.value = '';
       pinInput.focus();
     }
@@ -240,7 +261,7 @@
   }
 
   if (changePinForm) {
-    changePinForm.addEventListener('submit', (e) => {
+    changePinForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const currentPinVal = document.getElementById('currentPin').value.trim();
       const newPinVal = document.getElementById('newPin').value.trim();
@@ -261,6 +282,14 @@
         return;
       }
 
+      try {
+        await fetch('/api/auth', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'change_pin', currentPin: currentPinVal, newPin: newPinVal })
+        });
+      } catch (err) {}
+
       setStoredPin(newPinVal);
       closeChangePinModal();
       showToast('Security PIN changed successfully!');
@@ -275,6 +304,21 @@
     if (!existing) {
       localStorage.setItem(PROJECTS_KEY, JSON.stringify(DEFAULT_PROJECTS));
     }
+    fetchProjectsFromD1();
+  }
+
+  async function fetchProjectsFromD1() {
+    try {
+      const res = await fetch('/api/projects');
+      if (res.ok) {
+        const data = await res.json();
+        if (data && Array.isArray(data.projects) && data.projects.length > 0) {
+          localStorage.setItem(PROJECTS_KEY, JSON.stringify(data.projects));
+          renderProjects();
+          updateStats();
+        }
+      }
+    } catch (e) {}
   }
 
   function getProjects() {
@@ -442,7 +486,7 @@
 
   // Form Submit (Save / Update)
   if (projectForm) {
-    projectForm.addEventListener('submit', (e) => {
+    projectForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const title = document.getElementById('projectTitle').value.trim();
       const category = document.getElementById('projectCategory').value;
@@ -461,7 +505,7 @@
         // Edit existing
         const idx = projects.findIndex(p => p.id === editingProjectId);
         if (idx !== -1) {
-          projects[idx] = {
+          const updatedItem = {
             ...projects[idx],
             title,
             category,
@@ -470,8 +514,21 @@
             mediaUrl,
             desc
           };
+          projects[idx] = updatedItem;
           saveProjects(projects);
           showToast('Project updated successfully!');
+
+          // Sync with D1 API
+          try {
+            await fetch('/api/projects', {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+                'x-admin-pin': getStoredPin()
+              },
+              body: JSON.stringify(updatedItem)
+            });
+          } catch (err) {}
         }
       } else {
         // Add new
@@ -482,11 +539,24 @@
           categoryName: getCategoryLabel(category),
           mediaType,
           mediaUrl,
-          desc
+          desc,
+          sortOrder: 0
         };
         projects.unshift(newProj);
         saveProjects(projects);
         showToast('New project added to portfolio!');
+
+        // Sync with D1 API
+        try {
+          await fetch('/api/projects', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-admin-pin': getStoredPin()
+            },
+            body: JSON.stringify(newProj)
+          });
+        } catch (err) {}
       }
 
       closeModal();
@@ -512,16 +582,24 @@
     projectModal.classList.add('open');
   };
 
-  window.adminDeleteProject = function (id) {
+  window.adminDeleteProject = async function (id) {
     if (!confirm('Are you sure you want to delete this project from the portfolio?')) {
       return;
     }
     const projects = getProjects().filter(p => p.id !== id);
     saveProjects(projects);
     showToast('Project deleted');
+
+    // Sync with D1 API
+    try {
+      await fetch('/api/projects?id=' + encodeURIComponent(id), {
+        method: 'DELETE',
+        headers: { 'x-admin-pin': getStoredPin() }
+      });
+    } catch (err) {}
   };
 
-  window.adminMoveProject = function (index, direction) {
+  window.adminMoveProject = async function (index, direction) {
     const projects = getProjects();
     const targetIndex = index + direction;
     if (targetIndex < 0 || targetIndex >= projects.length) return;
@@ -531,16 +609,41 @@
     projects[targetIndex] = temp;
 
     saveProjects(projects);
+
+    // Sync order with D1 API
+    try {
+      const orders = projects.map((p, idx) => ({ id: p.id, sortOrder: idx + 1 }));
+      await fetch('/api/projects', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-admin-pin': getStoredPin()
+        },
+        body: JSON.stringify({ action: 'reorder', orders })
+      });
+    } catch (err) {}
   };
 
   // ==========================================
   // 6. BACKUP, EXPORT & RESET TO DEFAULTS
   // ==========================================
   if (resetDefaultsBtn) {
-    resetDefaultsBtn.addEventListener('click', () => {
+    resetDefaultsBtn.addEventListener('click', async () => {
       if (confirm('Reset to default 6 showcase projects? Your custom additions will be replaced.')) {
         saveProjects(DEFAULT_PROJECTS);
         showToast('Restored default portfolio projects');
+
+        // Sync with D1 API
+        try {
+          await fetch('/api/projects', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-admin-pin': getStoredPin()
+            },
+            body: JSON.stringify({ action: 'reset_defaults' })
+          });
+        } catch (err) {}
       }
     });
   }

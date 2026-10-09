@@ -532,6 +532,24 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initial portfolio render
   renderPortfolio();
 
+  // Live Cloudflare D1 Database sync for worldwide visitors
+  async function fetchRemoteProjects() {
+    try {
+      const res = await fetch('/api/projects');
+      if (res.ok) {
+        const data = await res.json();
+        if (data && Array.isArray(data.projects) && data.projects.length > 0) {
+          localStorage.setItem(PROJECTS_STORAGE_KEY, JSON.stringify(data.projects));
+          renderPortfolio();
+        }
+      }
+    } catch (e) {
+      // Graceful offline / local fallback
+    }
+  }
+
+  fetchRemoteProjects();
+
   // 10. Modal Enlarge Video & Image Player
   const modal = document.getElementById('portfolioModal');
   const modalTitle = document.getElementById('modalTitle');
