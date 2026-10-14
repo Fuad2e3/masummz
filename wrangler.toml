@@ -1,13 +1,7 @@
 name = "masummz"
-compatibility_date = "2024-04-01"
+compatibility_date = "2024-11-01"
 main = "worker.js"
 
 [assets]
 directory = "./public"
 binding = "ASSETS"
-
-# D1 Database Binding
-[[d1_databases]]
-binding = "DB"
-database_name = "masummz-db"
-database_id = "67e1d5c0-1f6e-4818-b5e3-cbec3b720ad1"
