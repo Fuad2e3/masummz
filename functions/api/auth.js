@@ -1,5 +1,5 @@
-// Cloudflare Pages Function: /api/auth
-// Validates and manages Security PIN stored in Cloudflare D1 (settings table)
+// Serverless Edge Function: /api/auth
+// Validates and manages Security PIN stored in D1 (settings table)
 
 export async function onRequestPost(context) {
   const { request, env } = context;

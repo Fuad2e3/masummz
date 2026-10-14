@@ -1,5 +1,5 @@
-// Cloudflare Pages Function: /api/projects
-// Full CRUD for Portfolio Projects backed by Cloudflare D1 SQL Database
+// Serverless Edge Function: /api/projects
+// Full CRUD for Portfolio Projects backed by D1 SQL Database
 
 // Helper: Verify PIN from Header or Query
 async function isAuthorized(request, env) {
@@ -15,7 +15,7 @@ async function isAuthorized(request, env) {
   return authPin === validPin;
 }
 
-// 1. GET: Fetch all projects from Cloudflare D1
+// 1. GET: Fetch all projects from D1
 export async function onRequestGet(context) {
   const { env } = context;
 

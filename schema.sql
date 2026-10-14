@@ -1,6 +1,6 @@
 -- ========================================================
--- Cloudflare D1 Database Schema for Masum Mz Portfolio
--- Run this in Cloudflare D1 Console or via Wrangler:
+-- D1 Database Schema for Masum Mz Portfolio
+-- Run this in D1 Console or via Wrangler:
 -- npx wrangler d1 execute masummz-db --file=./schema.sql
 -- ========================================================
 
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS settings (
 );
 
 -- Insert Default Admin PIN (Default: 1234)
-INSERT OR IGNORE INTO settings (key, value) VALUES ('admin_pin', '1234');
+INSERT OR IGNORE INTO settings (key, value) VALUES ('admin_pin', '100taka');
 
 -- 3. Initial Seed Projects (Showcase Portfolio)
 INSERT OR IGNORE INTO projects (id, title, category, category_name, media_type, media_url, desc, sort_order) VALUES

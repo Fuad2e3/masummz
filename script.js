@@ -532,7 +532,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initial portfolio render
   renderPortfolio();
 
-  // Live Cloudflare D1 Database sync for worldwide visitors
+  // Live D1 Database sync for worldwide visitors
   async function fetchRemoteProjects() {
     try {
       const res = await fetch('/api/projects');

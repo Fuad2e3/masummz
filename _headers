@@ -1,4 +1,4 @@
-# Cloudflare Pages Headers Configuration
+# Edge Hosting Headers Configuration
 # Global Security Headers
 /*
   X-Content-Type-Options: nosniff

@@ -1,4 +1,4 @@
-// Comprehensive Test Suite for Cloudflare D1 Pages Functions
+// Comprehensive Test Suite for D1 Pages Functions
 // Tests: Auth (/api/auth) and Projects CRUD (/api/projects)
 
 import { onRequestPost as authHandler } from '../functions/api/auth.js';
@@ -9,7 +9,7 @@ import {
   onRequestDelete as deleteProjects
 } from '../functions/api/projects.js';
 
-// In-Memory SQLite-like mock for Cloudflare D1 Database
+// In-Memory SQLite-like mock for D1 Database
 class MockD1 {
   constructor() {
     this.settings = new Map([['admin_pin', '1234']]);
@@ -131,7 +131,7 @@ class MockD1 {
 // Test Runner
 async function runTests() {
   console.log('========================================================');
-  console.log('🧪 RUNNING CLOUDFLARE D1 & PAGES FUNCTIONS TEST SUITE');
+  console.log('🧪 RUNNING D1 & PAGES FUNCTIONS TEST SUITE');
   console.log('========================================================\n');
 
   let passed = 0;
