@@ -1,0 +1,10 @@
+.git
+.idea
+.gitignore
+.assetsignore
+wrangler.toml
+worker.js
+schema.sql
+tests/
+README.md
+functions/
