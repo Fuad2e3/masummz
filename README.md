@@ -75,7 +75,7 @@ Copy the generated `database_id` into `wrangler.toml`:
 [[d1_databases]]
 binding = "DB"
 database_name = "masummz-db"
-database_id = "YOUR_ACTUAL_D1_DATABASE_ID"
+database_id = "67e1d5c0-1f6e-4818-b5e3-cbec3b720ad1"
 ```
 
 Run schema initialization:
