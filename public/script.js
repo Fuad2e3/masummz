@@ -526,8 +526,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const categoryLabel = item.categoryName || (item.category === 'shorts' ? 'Shorts / Reels' : item.category === 'thumbnail' ? 'Thumbnail Design' : 'Video Editing');
       
       const hoverOverlay = isVideo
-        ? `<div class="video-overlay"><i class="fa-solid fa-play hover-play-icon"></i><span class="hover-text">${parsed.isEmbed ? 'Click to Play Video' : 'Hover to Play | Click to Enlarge'}</span></div>`
-        : `<div class="video-overlay"><i class="fa-solid fa-magnifying-glass-plus hover-play-icon"></i><span class="hover-text">Click to View Design</span></div>`;
+        ? `<div class="video-overlay"><span class="hover-text"><i class="fa-solid fa-play"></i> ${parsed.isEmbed ? 'Watch Video' : 'Hover to Play'}</span></div>`
+        : `<div class="video-overlay"><span class="hover-text"><i class="fa-solid fa-magnifying-glass-plus"></i> View Design</span></div>`;
 
       let mediaElement;
       if (isVideo) {
