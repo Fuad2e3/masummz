@@ -63,6 +63,7 @@ class MockD1 {
                   categoryName: p.category_name,
                   mediaType: p.media_type,
                   mediaUrl: p.media_url,
+                  thumbnailUrl: p.thumbnail_url || '',
                   desc: p.desc,
                   sortOrder: p.sort_order
                 }))
@@ -71,6 +72,9 @@ class MockD1 {
             return { results: [] };
           },
           async run() {
+            if (sql.includes('ALTER TABLE')) {
+              return { success: true };
+            }
             if (sql.includes('INSERT INTO settings')) {
               self.settings.set(args[0], args[1]);
               return { success: true };
@@ -83,21 +87,23 @@ class MockD1 {
                 category_name: args[3],
                 media_type: args[4],
                 media_url: args[5],
-                desc: args[6],
-                sort_order: args[7] || 0,
+                thumbnail_url: args[6],
+                desc: args[7],
+                sort_order: args[8] || 0,
                 created_at: new Date().toISOString()
               });
               return { success: true };
             }
             if (sql.includes('UPDATE projects') && sql.includes('WHERE id = ?')) {
-              const item = self.projects.find(p => p.id === args[6]);
+              const item = self.projects.find(p => p.id === args[7]);
               if (item) {
                 item.title = args[0];
                 item.category = args[1];
                 item.category_name = args[2];
                 item.media_type = args[3];
                 item.media_url = args[4];
-                item.desc = args[5];
+                item.thumbnail_url = args[5];
+                item.desc = args[6];
               }
               return { success: true };
             }

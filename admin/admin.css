@@ -813,3 +813,35 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* Live Media Preview Box in Admin Modal */
+.preview-media-container {
+  margin-top: 0.8rem;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  overflow: hidden;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  position: relative;
+  padding: 0.5rem;
+}
+
+.preview-media-container img,
+.preview-media-container video,
+.preview-media-container iframe {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 6px;
+  display: block;
+}
+
+.admin-card-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+

@@ -8,7 +8,7 @@
   const PROJECTS_KEY = 'masummz_portfolio_projects';
   const DEFAULT_PIN = '1234';
 
-  // Default Initial Projects (matches original portfolio)
+  // Default Initial Projects (matches original portfolio with working video & cover URLs)
   const DEFAULT_PROJECTS = [
     {
       id: 'proj_1',
@@ -16,7 +16,8 @@
       category: 'video',
       categoryName: 'Video Editing',
       mediaType: 'video',
-      mediaUrl: 'https://assets.mixkit.co/videos/preview/mixkit-working-on-a-video-editing-software-41618-large.mp4',
+      mediaUrl: 'https://www.youtube.com/watch?v=ScMzIvxBSi4',
+      thumbnailUrl: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=1200&q=80',
       desc: 'Pacing optimization, color grading, B-roll integration, and sound design.'
     },
     {
@@ -25,7 +26,8 @@
       category: 'shorts',
       categoryName: 'Shorts / Reels',
       mediaType: 'video',
-      mediaUrl: 'https://assets.mixkit.co/videos/preview/mixkit-young-man-recording-a-video-blog-41589-large.mp4',
+      mediaUrl: 'https://www.youtube.com/shorts/50_uA3P4h5M',
+      thumbnailUrl: 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=1200&q=80',
       desc: 'Dynamic subtitles, pop-up graphics, SFX, and high retention cuts.'
     },
     {
@@ -34,7 +36,8 @@
       category: 'video',
       categoryName: 'Motion Graphics',
       mediaType: 'video',
-      mediaUrl: 'https://assets.mixkit.co/videos/preview/mixkit-editing-a-video-on-a-computer-41617-large.mp4',
+      mediaUrl: 'https://www.youtube.com/watch?v=L_LUpnjgPso',
+      thumbnailUrl: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=80',
       desc: 'Sleek motion graphics, logo animations, lower thirds, and callouts.'
     },
     {
@@ -43,7 +46,8 @@
       category: 'shorts',
       categoryName: 'Shorts / Reels',
       mediaType: 'video',
-      mediaUrl: 'https://assets.mixkit.co/videos/preview/mixkit-fashion-model-posing-for-a-photoshoot-41584-large.mp4',
+      mediaUrl: 'https://www.youtube.com/shorts/aqz-KE-bpKQ',
+      thumbnailUrl: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=1200&q=80',
       desc: 'Beat synchronization, color enhancement, and energetic motion overlays.'
     },
     {
@@ -52,7 +56,8 @@
       category: 'thumbnail',
       categoryName: 'Thumbnail Design',
       mediaType: 'image',
-      mediaUrl: 'https://assets.mixkit.co/videos/preview/mixkit-creative-designer-working-on-a-tablet-41588-large.mp4',
+      mediaUrl: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80',
+      thumbnailUrl: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80',
       desc: 'Vibrant colors, photo manipulation, facial enhancement, and bold text styling.'
     },
     {
@@ -61,10 +66,96 @@
       category: 'thumbnail',
       categoryName: 'Thumbnail Design',
       mediaType: 'image',
-      mediaUrl: 'https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-man-playing-a-video-game-41585-large.mp4',
+      mediaUrl: 'https://images.unsplash.com/photo-1621416894569-0f39ed31d247?auto=format&fit=crop&w=1200&q=80',
+      thumbnailUrl: 'https://images.unsplash.com/photo-1621416894569-0f39ed31d247?auto=format&fit=crop&w=1200&q=80',
       desc: 'Custom 3D graphic elements, glow effects, and attention-grabbing typography.'
     }
   ];
+
+  // Helper: Universal Media Parser (Supports YouTube, Vimeo, Drive, Direct MP4 & Images)
+  function parseMedia(url, explicitType = null, customThumbnail = null) {
+    if (!url) {
+      return {
+        type: explicitType || 'image',
+        provider: 'unknown',
+        url: '',
+        thumbnailUrl: customThumbnail || '',
+        embedUrl: '',
+        isEmbed: false
+      };
+    }
+
+    const cleanUrl = String(url).trim();
+
+    // 1. YouTube (standard, youtu.be, shorts, embed)
+    const ytMatch = cleanUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|shorts\/))([a-zA-Z0-9_-]{11})/i);
+    if (ytMatch && ytMatch[1]) {
+      const videoId = ytMatch[1];
+      const defaultThumb = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+      return {
+        type: 'video',
+        provider: 'youtube',
+        videoId,
+        url: cleanUrl,
+        thumbnailUrl: customThumbnail || defaultThumb,
+        embedUrl: `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`,
+        isEmbed: true
+      };
+    }
+
+    // 2. Vimeo
+    const vimeoMatch = cleanUrl.match(/(?:vimeo\.com\/)(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|)(\d+)/i);
+    if (vimeoMatch && vimeoMatch[1]) {
+      const videoId = vimeoMatch[1];
+      return {
+        type: 'video',
+        provider: 'vimeo',
+        videoId,
+        url: cleanUrl,
+        thumbnailUrl: customThumbnail || '',
+        embedUrl: `https://player.vimeo.com/video/${videoId}?autoplay=1`,
+        isEmbed: true
+      };
+    }
+
+    // 3. Google Drive
+    const driveMatch = cleanUrl.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/i);
+    if (driveMatch && driveMatch[1]) {
+      const fileId = driveMatch[1];
+      return {
+        type: 'video',
+        provider: 'gdrive',
+        fileId,
+        url: cleanUrl,
+        thumbnailUrl: customThumbnail || '',
+        embedUrl: `https://drive.google.com/file/d/${fileId}/preview`,
+        isEmbed: true
+      };
+    }
+
+    // 4. Direct video (mp4, webm, mov, m4v, ogg) or explicit type === 'video'
+    const isVideoFile = cleanUrl.match(/\.(mp4|webm|mov|m4v|ogg)($|\?)/i) || explicitType === 'video';
+    if (isVideoFile && explicitType !== 'image') {
+      return {
+        type: 'video',
+        provider: 'direct',
+        url: cleanUrl,
+        thumbnailUrl: customThumbnail || '',
+        embedUrl: '',
+        isEmbed: false
+      };
+    }
+
+    // 5. Image
+    return {
+      type: 'image',
+      provider: 'image',
+      url: cleanUrl,
+      thumbnailUrl: customThumbnail || cleanUrl,
+      embedUrl: '',
+      isEmbed: false
+    };
+  }
 
   // DOM Elements
   const pinScreen = document.getElementById('pinScreen');
@@ -91,6 +182,7 @@
   const filterTabs = document.querySelectorAll('.tab-btn');
   const mediaUrlInput = document.getElementById('mediaUrl');
   const mediaTypeSelect = document.getElementById('mediaType');
+  const thumbnailUrlInput = document.getElementById('thumbnailUrl');
   const previewBox = document.getElementById('previewBox');
   const toastContainer = document.getElementById('toastContainer');
 
@@ -362,10 +454,28 @@
     }
 
     projectsGrid.innerHTML = filtered.map((proj, idx) => {
-      const isVideo = proj.mediaType === 'video' || (proj.mediaUrl && proj.mediaUrl.match(/\.(mp4|webm|mov)($|\?)/i));
-      const mediaHtml = isVideo
-        ? `<video src="${escapeHtml(proj.mediaUrl)}" muted loop playsinline onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0;"></video>`
-        : `<img src="${escapeHtml(proj.mediaUrl)}" alt="${escapeHtml(proj.title)}" loading="lazy">`;
+      const parsed = parseMedia(proj.mediaUrl, proj.mediaType, proj.thumbnailUrl);
+      let mediaHtml;
+
+      if (parsed.type === 'video') {
+        const coverImg = parsed.thumbnailUrl || (parsed.isEmbed && parsed.provider === 'youtube' ? `https://img.youtube.com/vi/${parsed.videoId}/hqdefault.jpg` : '');
+        if (coverImg) {
+          mediaHtml = `
+            <div style="position:relative;width:100%;height:100%;">
+              <img src="${escapeHtml(coverImg)}" alt="${escapeHtml(proj.title)}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+              <div style="position:absolute;inset:0;background:rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:center;">
+                <i class="fa-solid fa-play" style="color:#00ff88;font-size:1.4rem;filter:drop-shadow(0 0 10px rgba(0,255,136,0.7));"></i>
+              </div>
+            </div>
+          `;
+        } else if (parsed.provider === 'direct') {
+          mediaHtml = `<video src="${escapeHtml(proj.mediaUrl)}" muted loop playsinline onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0;"></video>`;
+        } else {
+          mediaHtml = `<div style="width:100%;height:100%;background:#091209;display:flex;align-items:center;justify-content:center;color:#00ff88;"><i class="fa-solid fa-video fa-2x"></i></div>`;
+        }
+      } else {
+        mediaHtml = `<img src="${escapeHtml(proj.thumbnailUrl || proj.mediaUrl)}" alt="${escapeHtml(proj.title)}" loading="lazy">`;
+      }
 
       const globalIndex = all.findIndex(item => item.id === proj.id);
 
@@ -439,6 +549,7 @@
       editingProjectId = null;
       modalTitle.innerText = 'Add New Project';
       projectForm.reset();
+      if (thumbnailUrlInput) thumbnailUrlInput.value = '';
       previewBox.style.display = 'none';
       previewBox.innerHTML = '';
       projectModal.classList.add('open');
@@ -459,21 +570,38 @@
   if (mediaTypeSelect) {
     mediaTypeSelect.addEventListener('change', updateMediaPreview);
   }
+  if (thumbnailUrlInput) {
+    thumbnailUrlInput.addEventListener('input', updateMediaPreview);
+  }
 
   function updateMediaPreview() {
-    const url = mediaUrlInput.value.trim();
-    const type = mediaTypeSelect.value;
+    const url = mediaUrlInput ? mediaUrlInput.value.trim() : '';
+    const type = mediaTypeSelect ? mediaTypeSelect.value : 'video';
+    const customThumb = thumbnailUrlInput ? thumbnailUrlInput.value.trim() : '';
+
     if (!url) {
       previewBox.style.display = 'none';
       previewBox.innerHTML = '';
       return;
     }
 
+    const parsed = parseMedia(url, type, customThumb);
     previewBox.style.display = 'flex';
-    if (type === 'video') {
-      previewBox.innerHTML = `<video src="${url}" controls autoplay muted playsinline style="max-height:180px;width:100%;"></video>`;
+
+    if (parsed.isEmbed && parsed.provider === 'youtube') {
+      previewBox.innerHTML = `
+        <div style="position:relative;width:100%;max-width:320px;text-align:center;">
+          <img src="${parsed.thumbnailUrl}" alt="YouTube Preview" style="width:100%;height:160px;object-fit:cover;border-radius:6px;">
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.8);color:#00ff88;padding:8px 14px;border-radius:20px;font-size:0.8rem;font-weight:700;display:flex;align-items:center;gap:6px;box-shadow:0 0 15px rgba(0,255,136,0.4);">
+            <i class="fa-brands fa-youtube" style="color:#ff0000;font-size:1.2rem;"></i> YouTube Video Detected
+          </div>
+        </div>
+      `;
+    } else if (parsed.type === 'video' && parsed.provider === 'direct') {
+      previewBox.innerHTML = `<video src="${url}" poster="${parsed.thumbnailUrl || ''}" controls autoplay muted playsinline style="max-height:180px;width:100%;"></video>`;
     } else {
-      previewBox.innerHTML = `<img src="${url}" alt="Preview" style="max-height:180px;max-width:100%;object-fit:contain;">`;
+      const displayImg = parsed.thumbnailUrl || url;
+      previewBox.innerHTML = `<img src="${displayImg}" alt="Preview" style="max-height:180px;max-width:100%;object-fit:contain;">`;
     }
   }
 
@@ -485,6 +613,7 @@
       const category = document.getElementById('projectCategory').value;
       const mediaType = document.getElementById('mediaType').value;
       const mediaUrl = document.getElementById('mediaUrl').value.trim();
+      const thumbnailUrl = thumbnailUrlInput ? thumbnailUrlInput.value.trim() : '';
       const desc = document.getElementById('projectDesc').value.trim();
 
       if (!title || !mediaUrl) {
@@ -505,6 +634,7 @@
             categoryName: getCategoryLabel(category),
             mediaType,
             mediaUrl,
+            thumbnailUrl,
             desc
           };
           projects[idx] = updatedItem;
@@ -532,6 +662,7 @@
           categoryName: getCategoryLabel(category),
           mediaType,
           mediaUrl,
+          thumbnailUrl,
           desc,
           sortOrder: 0
         };
@@ -569,6 +700,9 @@
     document.getElementById('projectCategory').value = proj.category || 'video';
     document.getElementById('mediaType').value = proj.mediaType || 'video';
     document.getElementById('mediaUrl').value = proj.mediaUrl || '';
+    if (thumbnailUrlInput) {
+      thumbnailUrlInput.value = proj.thumbnailUrl || '';
+    }
     document.getElementById('projectDesc').value = proj.desc || '';
 
     updateMediaPreview();

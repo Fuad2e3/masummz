@@ -345,6 +345,101 @@ document.addEventListener('DOMContentLoaded', () => {
   const filterBtns = document.querySelectorAll('.filter-btn');
   let currentPortfolioFilter = 'all';
 
+  // Helper: Universal Media Parser (Supports YouTube, Vimeo, Drive, Direct MP4 & Images)
+  function parseMedia(url, explicitType = null, customThumbnail = null) {
+    if (!url) {
+      return {
+        type: explicitType || 'image',
+        provider: 'unknown',
+        url: '',
+        thumbnailUrl: customThumbnail || '',
+        embedUrl: '',
+        isEmbed: false
+      };
+    }
+
+    const cleanUrl = String(url).trim();
+
+    // 1. YouTube (standard, youtu.be, shorts, embed)
+    const ytMatch = cleanUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|shorts\/))([a-zA-Z0-9_-]{11})/i);
+    if (ytMatch && ytMatch[1]) {
+      const videoId = ytMatch[1];
+      const defaultThumb = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+      return {
+        type: 'video',
+        provider: 'youtube',
+        videoId,
+        url: cleanUrl,
+        thumbnailUrl: customThumbnail || defaultThumb,
+        embedUrl: `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`,
+        isEmbed: true
+      };
+    }
+
+    // 2. Vimeo
+    const vimeoMatch = cleanUrl.match(/(?:vimeo\.com\/)(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|)(\d+)/i);
+    if (vimeoMatch && vimeoMatch[1]) {
+      const videoId = vimeoMatch[1];
+      return {
+        type: 'video',
+        provider: 'vimeo',
+        videoId,
+        url: cleanUrl,
+        thumbnailUrl: customThumbnail || '',
+        embedUrl: `https://player.vimeo.com/video/${videoId}?autoplay=1`,
+        isEmbed: true
+      };
+    }
+
+    // 3. Google Drive
+    const driveMatch = cleanUrl.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/i);
+    if (driveMatch && driveMatch[1]) {
+      const fileId = driveMatch[1];
+      return {
+        type: 'video',
+        provider: 'gdrive',
+        fileId,
+        url: cleanUrl,
+        thumbnailUrl: customThumbnail || '',
+        embedUrl: `https://drive.google.com/file/d/${fileId}/preview`,
+        isEmbed: true
+      };
+    }
+
+    // 4. Direct video (mp4, webm, mov, m4v, ogg) or explicit type === 'video'
+    const isVideoFile = cleanUrl.match(/\.(mp4|webm|mov)($|\?)/i) || explicitType === 'video';
+    if (isVideoFile && explicitType !== 'image') {
+      return {
+        type: 'video',
+        provider: 'direct',
+        url: cleanUrl,
+        thumbnailUrl: customThumbnail || '',
+        embedUrl: '',
+        isEmbed: false
+      };
+    }
+
+    // 5. Image
+    return {
+      type: 'image',
+      provider: 'image',
+      url: cleanUrl,
+      thumbnailUrl: customThumbnail || cleanUrl,
+      embedUrl: '',
+      isEmbed: false
+    };
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
   const DEFAULT_PORTFOLIO_PROJECTS = [
     {
       id: 'proj_1',
@@ -352,7 +447,8 @@ document.addEventListener('DOMContentLoaded', () => {
       category: 'video',
       categoryName: 'Video Editing',
       mediaType: 'video',
-      mediaUrl: 'https://assets.mixkit.co/videos/preview/mixkit-working-on-a-video-editing-software-41618-large.mp4',
+      mediaUrl: 'https://www.youtube.com/watch?v=ScMzIvxBSi4',
+      thumbnailUrl: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=1200&q=80',
       desc: 'Pacing optimization, color grading, B-roll integration, and sound design.'
     },
     {
@@ -361,7 +457,8 @@ document.addEventListener('DOMContentLoaded', () => {
       category: 'shorts',
       categoryName: 'Shorts / Reels',
       mediaType: 'video',
-      mediaUrl: 'https://assets.mixkit.co/videos/preview/mixkit-young-man-recording-a-video-blog-41589-large.mp4',
+      mediaUrl: 'https://www.youtube.com/shorts/50_uA3P4h5M',
+      thumbnailUrl: 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=1200&q=80',
       desc: 'Dynamic subtitles, pop-up graphics, SFX, and high retention cuts.'
     },
     {
@@ -370,7 +467,8 @@ document.addEventListener('DOMContentLoaded', () => {
       category: 'video',
       categoryName: 'Motion Graphics',
       mediaType: 'video',
-      mediaUrl: 'https://assets.mixkit.co/videos/preview/mixkit-editing-a-video-on-a-computer-41617-large.mp4',
+      mediaUrl: 'https://www.youtube.com/watch?v=L_LUpnjgPso',
+      thumbnailUrl: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=80',
       desc: 'Sleek motion graphics, logo animations, lower thirds, and callouts.'
     },
     {
@@ -379,7 +477,8 @@ document.addEventListener('DOMContentLoaded', () => {
       category: 'shorts',
       categoryName: 'Shorts / Reels',
       mediaType: 'video',
-      mediaUrl: 'https://assets.mixkit.co/videos/preview/mixkit-fashion-model-posing-for-a-photoshoot-41584-large.mp4',
+      mediaUrl: 'https://www.youtube.com/shorts/aqz-KE-bpKQ',
+      thumbnailUrl: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=1200&q=80',
       desc: 'Beat synchronization, color enhancement, and energetic motion overlays.'
     },
     {
@@ -388,7 +487,8 @@ document.addEventListener('DOMContentLoaded', () => {
       category: 'thumbnail',
       categoryName: 'Thumbnail Design',
       mediaType: 'image',
-      mediaUrl: 'https://assets.mixkit.co/videos/preview/mixkit-creative-designer-working-on-a-tablet-41588-large.mp4',
+      mediaUrl: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80',
+      thumbnailUrl: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80',
       desc: 'Vibrant colors, photo manipulation, facial enhancement, and bold text styling.'
     },
     {
@@ -397,7 +497,8 @@ document.addEventListener('DOMContentLoaded', () => {
       category: 'thumbnail',
       categoryName: 'Thumbnail Design',
       mediaType: 'image',
-      mediaUrl: 'https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-man-playing-a-video-game-41585-large.mp4',
+      mediaUrl: 'https://images.unsplash.com/photo-1621416894569-0f39ed31d247?auto=format&fit=crop&w=1200&q=80',
+      thumbnailUrl: 'https://images.unsplash.com/photo-1621416894569-0f39ed31d247?auto=format&fit=crop&w=1200&q=80',
       desc: 'Custom 3D graphic elements, glow effects, and attention-grabbing typography.'
     }
   ];
@@ -420,25 +521,36 @@ document.addEventListener('DOMContentLoaded', () => {
     const projects = getActiveProjects();
 
     portfolioGrid.innerHTML = projects.map(item => {
-      const isVideo = item.mediaType === 'video' || (item.mediaUrl && item.mediaUrl.match(/\.(mp4|webm|mov)($|\?)/i));
+      const parsed = parseMedia(item.mediaUrl, item.mediaType, item.thumbnailUrl);
+      const isVideo = parsed.type === 'video';
       const categoryLabel = item.categoryName || (item.category === 'shorts' ? 'Shorts / Reels' : item.category === 'thumbnail' ? 'Thumbnail Design' : 'Video Editing');
+      
       const hoverOverlay = isVideo
-        ? `<div class="video-overlay"><i class="fa-solid fa-play hover-play-icon"></i><span class="hover-text">Hover to Play | Click to Enlarge</span></div>`
+        ? `<div class="video-overlay"><i class="fa-solid fa-play hover-play-icon"></i><span class="hover-text">${parsed.isEmbed ? 'Click to Play Video' : 'Hover to Play | Click to Enlarge'}</span></div>`
         : `<div class="video-overlay"><i class="fa-solid fa-magnifying-glass-plus hover-play-icon"></i><span class="hover-text">Click to View Design</span></div>`;
-      const mediaElement = isVideo
-        ? `<video class="portfolio-video" src="${item.mediaUrl}" muted loop playsinline preload="metadata"></video>`
-        : `<img src="${item.mediaUrl}" alt="${item.title}" class="portfolio-thumb-img" style="width:100%;height:100%;object-fit:cover;display:block;">`;
+
+      let mediaElement;
+      if (isVideo) {
+        const posterUrl = parsed.thumbnailUrl || (parsed.isEmbed && parsed.provider === 'youtube' ? `https://img.youtube.com/vi/${parsed.videoId}/hqdefault.jpg` : '');
+        if (parsed.isEmbed) {
+          mediaElement = `<img src="${posterUrl}" alt="${escapeHtml(item.title)}" class="portfolio-thumb-poster" loading="lazy">`;
+        } else {
+          mediaElement = `<video class="portfolio-video" src="${item.mediaUrl}" poster="${posterUrl}" muted loop playsinline preload="metadata"></video>`;
+        }
+      } else {
+        mediaElement = `<img src="${item.thumbnailUrl || item.mediaUrl}" alt="${escapeHtml(item.title)}" class="portfolio-thumb-img" loading="lazy">`;
+      }
 
       return `
-        <div class="portfolio-card" data-category="${item.category}" data-media-type="${isVideo ? 'video' : 'image'}">
+        <div class="portfolio-card" data-category="${item.category}" data-id="${item.id}" data-media-type="${isVideo ? 'video' : 'image'}">
           <div class="portfolio-media">
             ${mediaElement}
             ${hoverOverlay}
             <span class="category-badge">${categoryLabel}</span>
           </div>
           <div class="portfolio-info">
-            <h3>${item.title}</h3>
-            <p>${item.desc || ''}</p>
+            <h3>${escapeHtml(item.title)}</h3>
+            <p>${escapeHtml(item.desc || '')}</p>
           </div>
         </div>
       `;
@@ -470,13 +582,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
       card.addEventListener('click', () => {
         stopAllVideos();
-        const title = card.querySelector('h3')?.innerText || 'Portfolio Preview';
-        const desc = card.querySelector('p')?.innerText || '';
-        const category = card.querySelector('.category-badge')?.innerText || card.getAttribute('data-category') || '';
-        const mediaType = card.getAttribute('data-media-type') || 'video';
-        const mediaSrc = video ? video.getAttribute('src') : card.querySelector('img')?.getAttribute('src');
+        const id = card.getAttribute('data-id');
+        const projects = getActiveProjects();
+        const item = projects.find(p => p.id === id);
 
-        openModal(title, category, desc, mediaSrc, mediaType);
+        if (item) {
+          openModal(item.title, item.categoryName || item.category, item.desc, item.mediaUrl, item.mediaType, item.thumbnailUrl);
+        } else {
+          const title = card.querySelector('h3')?.innerText || 'Portfolio Preview';
+          const desc = card.querySelector('p')?.innerText || '';
+          const category = card.querySelector('.category-badge')?.innerText || card.getAttribute('data-category') || '';
+          const mediaType = card.getAttribute('data-media-type') || 'video';
+          const mediaSrc = video ? video.getAttribute('src') : card.querySelector('img')?.getAttribute('src');
+
+          openModal(title, category, desc, mediaSrc, mediaType);
+        }
       });
     });
   }
@@ -558,23 +678,31 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalMediaContainer = document.getElementById('modalMediaContainer');
   const modalClose = document.getElementById('modalClose');
 
-  function openModal(title, category, desc, mediaSrc, mediaType = 'video') {
+  function openModal(title, category, desc, mediaSrc, mediaType = 'video', customThumbnail = '') {
     if (modalTitle) modalTitle.innerText = title;
     if (modalCategory) modalCategory.innerText = category.toUpperCase();
     if (modalDesc) modalDesc.innerText = desc;
 
     if (modalMediaContainer) {
       if (mediaSrc) {
-        if (mediaType === 'image') {
+        const parsed = parseMedia(mediaSrc, mediaType, customThumbnail);
+
+        if (parsed.type === 'image') {
           modalMediaContainer.innerHTML = `
-            <div class="modal-image-wrapper" style="text-align:center;max-height:480px;display:flex;align-items:center;justify-content:center;">
-              <img src="${mediaSrc}" alt="${title}" class="modal-large-img" style="max-width:100%;max-height:460px;border-radius:10px;object-fit:contain;">
+            <div class="modal-image-wrapper" style="text-align:center;max-height:500px;display:flex;align-items:center;justify-content:center;">
+              <img src="${mediaSrc}" alt="${escapeHtml(title)}" class="modal-large-img" style="max-width:100%;max-height:480px;border-radius:10px;object-fit:contain;">
+            </div>
+          `;
+        } else if (parsed.isEmbed) {
+          modalMediaContainer.innerHTML = `
+            <div class="modal-iframe-wrapper">
+              <iframe src="${parsed.embedUrl}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="modal-large-iframe"></iframe>
             </div>
           `;
         } else {
           modalMediaContainer.innerHTML = `
             <div class="modal-video-wrapper">
-              <video src="${mediaSrc}" controls autoplay playsinline class="modal-large-video"></video>
+              <video src="${mediaSrc}" poster="${parsed.thumbnailUrl || ''}" controls autoplay playsinline class="modal-large-video"></video>
             </div>
           `;
         }
@@ -582,7 +710,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modalMediaContainer.innerHTML = `
           <div class="modal-placeholder-preview">
             <i class="fa-solid fa-play-circle modal-play-icon"></i>
-            <p>Preview for <strong>${title}</strong></p>
+            <p>Preview for <strong>${escapeHtml(title)}</strong></p>
           </div>
         `;
       }
