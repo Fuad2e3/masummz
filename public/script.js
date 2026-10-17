@@ -443,33 +443,33 @@ document.addEventListener('DOMContentLoaded', () => {
   const DEFAULT_PORTFOLIO_PROJECTS = [
     {
       id: 'proj_1',
-      title: 'YouTube Vlog & Storytelling Edit',
+      title: 'Course Promo',
       category: 'video',
-      categoryName: 'Video Editing',
+      categoryName: 'Talking Head',
       mediaType: 'video',
       mediaUrl: 'https://www.youtube.com/watch?v=ScMzIvxBSi4',
       thumbnailUrl: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=1200&q=80',
-      desc: 'Pacing optimization, color grading, B-roll integration, and sound design.'
+      desc: 'adobe premiere pro and after effects'
     },
     {
       id: 'proj_2',
+      title: 'next jobs',
+      category: 'video',
+      categoryName: 'Talking Head',
+      mediaType: 'video',
+      mediaUrl: 'https://www.youtube.com/watch?v=L_LUpnjgPso',
+      thumbnailUrl: 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=1200&q=80',
+      desc: 'adobe premiere pro and after effects'
+    },
+    {
+      id: 'proj_3',
       title: 'Viral Podcast Clip (Alex Hormozi Style)',
       category: 'shorts',
       categoryName: 'Shorts / Reels',
       mediaType: 'video',
       mediaUrl: 'https://www.youtube.com/shorts/50_uA3P4h5M',
-      thumbnailUrl: 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=1200&q=80',
-      desc: 'Dynamic subtitles, pop-up graphics, SFX, and high retention cuts.'
-    },
-    {
-      id: 'proj_3',
-      title: 'Motion Graphics & Visual FX Edit',
-      category: 'video',
-      categoryName: 'Motion Graphics',
-      mediaType: 'video',
-      mediaUrl: 'https://www.youtube.com/watch?v=L_LUpnjgPso',
       thumbnailUrl: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=80',
-      desc: 'Sleek motion graphics, logo animations, lower thirds, and callouts.'
+      desc: 'Dynamic subtitles, pop-up graphics, SFX, and high retention cuts.'
     },
     {
       id: 'proj_4',
@@ -523,34 +523,70 @@ document.addEventListener('DOMContentLoaded', () => {
     portfolioGrid.innerHTML = projects.map(item => {
       const parsed = parseMedia(item.mediaUrl, item.mediaType, item.thumbnailUrl);
       const isVideo = parsed.type === 'video';
-      const categoryLabel = item.categoryName || (item.category === 'shorts' ? 'Shorts / Reels' : item.category === 'thumbnail' ? 'Thumbnail Design' : 'Video Editing');
-      
-      const hoverOverlay = isVideo
-        ? `<div class="video-overlay"><span class="hover-text"><i class="fa-solid fa-play"></i> ${parsed.isEmbed ? 'Watch Video' : 'Hover to Play'}</span></div>`
-        : `<div class="video-overlay"><span class="hover-text"><i class="fa-solid fa-magnifying-glass-plus"></i> View Design</span></div>`;
+      const categoryLabel = item.categoryName || (item.category === 'shorts' ? 'Shorts / Reels' : item.category === 'thumbnail' ? 'Thumbnail Design' : 'Talking Head');
 
       let mediaElement;
-      if (isVideo) {
-        const posterUrl = parsed.thumbnailUrl || (parsed.isEmbed && parsed.provider === 'youtube' ? `https://img.youtube.com/vi/${parsed.videoId}/hqdefault.jpg` : '');
-        if (parsed.isEmbed) {
-          mediaElement = `<img src="${posterUrl}" alt="${escapeHtml(item.title)}" class="portfolio-thumb-poster" loading="lazy">`;
-        } else {
-          mediaElement = `<video class="portfolio-video" src="${item.mediaUrl}" poster="${posterUrl}" muted loop playsinline preload="metadata"></video>`;
-        }
+      if (parsed.isEmbed && parsed.provider === 'youtube') {
+        mediaElement = `
+          <iframe 
+            src="https://www.youtube.com/embed/${parsed.videoId}?rel=0" 
+            title="${escapeHtml(item.title)}" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen 
+            loading="lazy">
+          </iframe>`;
+      } else if (parsed.isEmbed && parsed.provider === 'vimeo') {
+        mediaElement = `
+          <iframe 
+            src="https://player.vimeo.com/video/${parsed.videoId}" 
+            title="${escapeHtml(item.title)}" 
+            frameborder="0" 
+            allow="autoplay; fullscreen; picture-in-picture" 
+            allowfullscreen 
+            loading="lazy">
+          </iframe>`;
+      } else if (parsed.isEmbed && parsed.provider === 'gdrive') {
+        mediaElement = `
+          <iframe 
+            src="https://drive.google.com/file/d/${parsed.fileId}/preview" 
+            title="${escapeHtml(item.title)}" 
+            frameborder="0" 
+            allowfullscreen 
+            loading="lazy">
+          </iframe>`;
+      } else if (isVideo) {
+        mediaElement = `
+          <video 
+            class="portfolio-video" 
+            src="${escapeHtml(item.mediaUrl)}" 
+            poster="${escapeHtml(parsed.thumbnailUrl || '')}" 
+            controls 
+            playsinline 
+            preload="metadata">
+          </video>`;
       } else {
-        mediaElement = `<img src="${item.thumbnailUrl || item.mediaUrl}" alt="${escapeHtml(item.title)}" class="portfolio-thumb-img" loading="lazy">`;
+        mediaElement = `
+          <img 
+            src="${escapeHtml(item.thumbnailUrl || item.mediaUrl)}" 
+            alt="${escapeHtml(item.title)}" 
+            class="portfolio-card-img" 
+            loading="lazy">`;
       }
+
+      const metaParts = [];
+      if (categoryLabel) metaParts.push(`<span class="meta-cat">${escapeHtml(categoryLabel)}</span>`);
+      if (item.desc) metaParts.push(`<span class="meta-desc">${escapeHtml(item.desc)}</span>`);
+      const metaHtml = metaParts.length > 0 ? metaParts.join(' <span class="meta-dot">•</span> ') : '';
 
       return `
         <div class="portfolio-card" data-category="${item.category}" data-id="${item.id}" data-media-type="${isVideo ? 'video' : 'image'}">
           <div class="portfolio-media">
             ${mediaElement}
-            ${hoverOverlay}
-            <span class="category-badge">${categoryLabel}</span>
           </div>
           <div class="portfolio-info">
             <h3>${escapeHtml(item.title)}</h3>
-            <p>${escapeHtml(item.desc || '')}</p>
+            ${metaHtml ? `<p class="portfolio-meta">${metaHtml}</p>` : ''}
           </div>
         </div>
       `;
@@ -564,40 +600,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const cards = document.querySelectorAll('.portfolio-card');
 
     cards.forEach(card => {
-      const video = card.querySelector('.portfolio-video');
+      const mediaType = card.getAttribute('data-media-type');
+      const id = card.getAttribute('data-id');
 
-      if (video) {
-        card.addEventListener('mouseenter', () => {
-          stopAllVideos();
-          card.classList.add('playing');
-          video.play().catch(e => console.log('Autoplay prevented:', e));
-        });
-
-        card.addEventListener('mouseleave', () => {
-          video.pause();
-          video.currentTime = 0;
-          card.classList.remove('playing');
+      // Click to enlarge modal for image / design assets
+      if (mediaType === 'image') {
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', () => {
+          const projects = getActiveProjects();
+          const item = projects.find(p => p.id === id);
+          if (item) {
+            openModal(item.title, item.categoryName || item.category, item.desc, item.mediaUrl, item.mediaType, item.thumbnailUrl);
+          } else {
+            const title = card.querySelector('h3')?.innerText || 'Portfolio Preview';
+            const desc = card.querySelector('.meta-desc')?.innerText || '';
+            const category = card.querySelector('.meta-cat')?.innerText || '';
+            const mediaSrc = card.querySelector('img')?.getAttribute('src');
+            openModal(title, category, desc, mediaSrc, 'image');
+          }
         });
       }
-
-      card.addEventListener('click', () => {
-        stopAllVideos();
-        const id = card.getAttribute('data-id');
-        const projects = getActiveProjects();
-        const item = projects.find(p => p.id === id);
-
-        if (item) {
-          openModal(item.title, item.categoryName || item.category, item.desc, item.mediaUrl, item.mediaType, item.thumbnailUrl);
-        } else {
-          const title = card.querySelector('h3')?.innerText || 'Portfolio Preview';
-          const desc = card.querySelector('p')?.innerText || '';
-          const category = card.querySelector('.category-badge')?.innerText || card.getAttribute('data-category') || '';
-          const mediaType = card.getAttribute('data-media-type') || 'video';
-          const mediaSrc = video ? video.getAttribute('src') : card.querySelector('img')?.getAttribute('src');
-
-          openModal(title, category, desc, mediaSrc, mediaType);
-        }
-      });
     });
   }
 
